@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'MySQL',  #mysql
         'USER': 'root', #root
         'PASSWORD': 'ssafydif', #1234
-        'HOST': '192.168.31.92', #공백으로 냅두면 default localhost
+        'HOST': '', #공백으로 냅두면 default localhost
         'PORT': '' #공백으로 냅두면 default 3306
     }
 }

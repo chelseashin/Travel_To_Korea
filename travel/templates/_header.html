@@ -1,18 +1,98 @@
-{% load static %}
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
 <header>
-            <h1 >Travel To Korea</h1>
-            <h2 >Lets Your Story Begin</h2>
-            <nav >
-                <ul>
-                    <li><a href="#" class="selected">About</a></li>
-                    <li><a href="#">Link1</a></li>
-                    <li><a href="#">Link2</a></li>
-                    <li><a href="#">Link3</a></li>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            style="background-color: #FF1493;border-color: #212529;box-shadow: none">
-                        LOGIN
-                    </button>
-                </ul>
-            </nav>
+    
+<h1>Travel To Korea</h1>
+<h2 >Lets Your Story Begin</h2>
+<!-- 로그인 되어 있는 경우 -->
+{% if user.is_active %}
+    <p class="text-center" style="color:aliceblue">{{ user.username }}님, 환영합니다!</p>
+<!-- 로그인 되어 있지 않은 경우 -->
+{% else %}
+    <p class="text-center" style="color:aliceblue">더 많은 기능을 이용하시려면 <a href="{% url 'accounts:login' %}">로그인</a> 해주세요!</p>
+{% endif %}
+<nav>
+    <ul>
+        <li><a href="#" class="selected">About</a></li>
+        <li><a href="#">Link1</a></li>
+        <li><a href="#">Link2</a></li>
+        <li><a href="#">MyPage</a></li>
+        <!-- 로그인 되어있는 경우 -->
+        {% if user.is_active %}
+        
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                style="background-color: #FF1493;border-color: #212529;box-shadow: none">
+                <a href="{% url 'accounts:logout' %}">LOGOUT</a>
+        </button>
+    
+        <!-- 로그인 되어있지 않은 경우 -->
+        {% else %}
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                style="background-color: #FF1493;border-color: #212529;box-shadow: none">
+            LOGIN
+        </button> -->
+        <div id="app">
+        <v-layout row justify-center>
+                <v-btn
+                  color="primary"
+                  dark
+                  @click.stop="dialog = true"
+                >
+                  LogIn
+                </v-btn>
+            
+                <v-dialog
+                  v-model="dialog"
+                  max-width="290"
+                >
+                  <v-card>
+                    <v-card-title class="headline">Use Google's location service?</v-card-title>
+            
+                    <v-card-text>
+                      Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                    </v-card-text>
+            
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+            
+                      <v-btn
+                        color="green darken-1"
+                        flat="flat"
+                        @click="dialog = false"
+                      >
+                        Disagree
+                      </v-btn>
+            
+                      <v-btn
+                        color="green darken-1"
+                        flat="flat"
+                        @click="dialog = false"
+                      >
+                        Agree
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-layout>
+            </div>
+        {% endif %}
+    </ul>
+    
+</nav>
 </header>
-{% include 'accounts/SignUp.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script>
+    new Vue({ 
+        el: '#app',
+        data: {
+            dialog: false,
+            message: 'hi'
+        }
+    })
+</script>
+<!-- {% include 'accounts/SignUp.html' %} -->
