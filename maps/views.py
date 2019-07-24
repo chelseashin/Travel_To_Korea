@@ -5,19 +5,11 @@ import json
 import pprint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import DetailInformSerializer
-from .models import DetailInform
+# from .serializers import DetailInformSerializer
+# from .models import DetailInform
 
 
 # Create your views here.
-
-@api_view(['GET'])
-def test(request):
-    '''여행 정보'''
-    inform = DetailInform.objects.all()
-    serializer = DetailInformSerializer(inform,  many=True)
-    return Response(serializer.data)
-
 
 def main(request):
     ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
