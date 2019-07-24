@@ -3,7 +3,7 @@ from accounts.models import MyUser
 
 # Create your models here.
 class Common(models.Model):
-    contentId = models.IntegerField(unique=True, primary_key=True)
+    contentId = models.IntegerField(unique=True)
     sigungu = models.IntegerField()
     area = models.IntegerField()
     category = models.IntegerField()
@@ -27,13 +27,23 @@ class Detail(models.Model):
     parking = models.TextField()
     chkPet = models.TextField()
     chkBaby = models.TextField()
-    age =  models.TextField()
+    restDate = models.TextField()
+    useTime = models.TextField()
+    ageLimit =  models.TextField()
     pay = models.TextField()
     barbeque = models.TextField()
     refund = models.TextField()
+    subevent = models.TextField()
+    openPeriod = models.TextField()
+    discountInfo = models.TextField()
+    chkCook = models.TextField()
+    openTime = models.TextField()
+    chkPack = models.TextField()
+    chkSmoking = models.TextField()
+    infoCenter = models.TextField()
 
 class Bookmark(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     inform = models.ForeignKey(Common, on_delete=models.CASCADE)
 
     class Meta:
@@ -41,14 +51,14 @@ class Bookmark(models.Model):
 
 
 class Stamp(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     inform = models.ForeignKey(Common, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ("user", "inform")
 
 class Comment(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     inform = models.ForeignKey(Common, on_delete=models.CASCADE)
     content = models.TextField()
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -61,7 +71,7 @@ class Comment(models.Model):
         unique_together = ("user", "inform")
 
 class Score(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, primary_key=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     inform = models.ForeignKey(Common, on_delete=models.CASCADE)
     score = models.IntegerField()
 
