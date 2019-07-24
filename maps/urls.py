@@ -5,7 +5,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-# app_name = 'maps'
+app_name = 'maps'
 
 # schema_url_v1_patterns = [
 #     url(r'^v1/', include('maps.urls', namespace='map_api')),
@@ -38,5 +38,4 @@ urlpatterns = [
     path('detail/<int:content_id>/', views.detailpage),
     # path('docs/', get_swagger_view(title="여행 정보 API")),
     path('detail/', views.test),
-
     ]
