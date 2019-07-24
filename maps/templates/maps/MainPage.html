@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td>
-                <img src="{% static 'maps/img/earth.gif' %}">
+                <div id="regions_div" style="width: 900px; height: 500px;"></div>
             </td>
         </tr>
     </table>
@@ -121,6 +121,52 @@ Vue.config.devtools = true;
           }
        }
 
+</script>
+
+<!-- 지도 그리기 -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+ google.charts.load('current', {
+   'packages':['geochart'],
+   // Note: you will need to get a mapsApiKey for your project.
+   // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+   'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+ });
+ google.charts.setOnLoadCallback(drawRegionsMap);
+ function drawRegionsMap() {
+   var data = google.visualization.arrayToDataTable([
+     ['Provinces', 'Popularity'],
+     ['서울', 978],
+     ['경기도', 1234],
+     ['부산광역시', 345],
+     ['대전광역시', 155],
+     ['대구광역시', 267],
+     ['울산광역시', 117],
+     ['인천광역시', 293],
+     ['충청북도', 158],
+     ['충청남도', 206],
+     ['광주광역시', 150],
+     ['전라북도', 187],
+     ['전라남도', 190],
+     ['경상북도', 270],
+     ['경상남도', 345],
+     ['강원도', 157],
+     ['Jeju', 64],
+   ]);
+   var options = {
+       region: 'KR',
+       resolution: 'provinces',
+       zoomControl:true,
+       scaleControl:true,
+       keepAspectRatio: false,
+    //    colorAxis: {colors: ['#64f57c', '#f071d4', '#9c29e3']},
+       backgroundColor: '#81d4fa',
+    //    datalessRegionColor: '#f8bbd0',
+    //    defaultColor: '#f5f5f5',
+   };
+   var chart = new google.visualization.GeoChart(document.getElementById('regions_div'), {zoom: 4});
+   chart.draw(data, options);
+ }
 </script>
 
 {% endblock %}
