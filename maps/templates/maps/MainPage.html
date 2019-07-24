@@ -109,7 +109,7 @@ var app = new Vue({
             sigungucode:'',
     },
     methods:{
-        <!--대분류 선택시-->
+        // 대분류 선택시
         changeRegion : function(){
             var Select = document.getElementById("region");
             this.areacode=Select.value;
@@ -126,13 +126,13 @@ var app = new Vue({
             this.selectedlist=[]
         },
 
-        <!--시군구 선택시-->
+        // 시군구 선택시
         changeSigungu : function(){
             var Select = document.getElementById("sigungu");
             alert(Select.value)
             this.sigungucode=Select.value
         },
-        <!--체크시 값 출력-->
+        // 체크시 값 출력
          check :function(value){
             if(this.checked==false){this.checked=true}
             if (this.checked==true){
@@ -155,7 +155,7 @@ var app = new Vue({
     },
 });
 Vue.config.devtools = true;
-    <!--전체선택-->
+    // 전체선택
       function checkAll(box){
           if( $("#chkAll").is(':checked') ){
             $("input[value=chk_info]").prop("checked", true);

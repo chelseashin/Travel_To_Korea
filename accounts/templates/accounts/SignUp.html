@@ -1,17 +1,48 @@
-<!DOCTYPE html>
 {% load static %}
-<html>
+
 <head>
    <meta charset="UTF-8">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
    <link rel="stylesheet" type="text/css" href="{% static 'travel/css/SignUpModal.css' %}">
 </head>
-<body>
+<v-layout row justify-center>
+        <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">Use Google's location service?</v-card-title>
+  
+          <v-card-text>
+            Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+          </v-card-text>
+  
+          <v-card-actions>
+            <v-spacer></v-spacer>
+  
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="dialog = false"
+            >
+              Disagree
+            </v-btn>
+  
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="dialog = false"
+            >
+              Agree
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+</v-layout>
+
+
 
 
    <div class="login-register-modal modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="">
@@ -102,5 +133,5 @@
          </div>
       </div>
    </div>
-  </body>
-  </html>
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>

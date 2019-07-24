@@ -52,7 +52,7 @@ def getInform(items, key_lists, lists):
 
 # detail page
 def detailpage(request, content_id):
-    content_type_code = {'관광지' : 12, '문화시설':14, '행사/공연/축제' : 15, '여행코스':25,
+    content_type_code = {'관광지' : 12, '문화시설':14, '행사/공연/축제' : 15, 
                         '레포츠':28, '숙박':32, '쇼핑':38, '음식점':39}
     servicekey = "GK%2BXkUwSbqiqfXfrJ2VPSperv70MFPcgz0%2Fo1NqOV%2FGlNX4AdA5wzyWdvTHPpaXtFSMSjrR1AhRE%2FEaCW37V9g%3D%3D"
     # print(content_id, servicekey)
@@ -106,19 +106,19 @@ def detailpage(request, content_id):
 
     # 행사/공연/축제
     if content_type_id == 15 :
-        key_lists = ['관함 가능 연령', '이용 요금', '장소', '행사 시작일', '행사 종료일','행사 홈페이지']
+        key_lists = ['관람 가능 연령', '이용 요금', '장소', '행사 시작일', '행사 종료일', '행사 홈페이지']
         lists = ['agelimit', 'usetimefestival','eventplace', 'eventstartdate', 'eventenddate', 'eventhomepage']
         inform = getInform(items, key_lists, lists)
 
     # 관광지
     if content_type_id == 12 :
-        key_lists = ['체험안내', '이용시기', '이용시간', '주차시설','문의 및 안내']
+        key_lists = ['체험안내', '이용시기', '이용시간', '주차시설', '문의 및 안내']
         lists = ['expguide', 'useseason','usetime', 'parking', 'infocenter']
         inform = getInform(items, key_lists, lists)
 
     # 문화시설
     if content_type_id == 14 :
-        key_lists = ['이용시간',' 이용요금', '관람시간', '쉬는날', '주차시설', '할인정보','문의 및 안내']
+        key_lists = ['이용시간',' 이용요금', '관람시간', '쉬는날', '주차시설', '할인정보', '문의 및 안내']
         lists = ['usetimeculture', 'usefee', 'spendtime', 'restdateculture', 
                 'parkingculture','discountinfo', 'infocenterculture']
         inform = getInform(items, key_lists, lists)
@@ -137,7 +137,7 @@ def detailpage(request, content_id):
 
     # 숙박
     if content_type_id == 32 :
-        key_lists = ['입실 시간', '퇴실 시간', '주차 시설','예약안내', '예약안내 홈페이지', '문의 및 안내']
+        key_lists = ['입실 시간', '퇴실 시간', '주차 시설', '예약안내', '예약안내 홈페이지', '문의 및 안내']
         lists = ['checkintime', 'checkouttime', 'parkinglodging','reservationlodging', 'reservationurl', 'infocenterlodging']
         inform = getInform(items, key_lists, lists)
 
