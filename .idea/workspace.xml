@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="650c5a09-b5e4-4d3c-8c65-cf0728b60a43" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps/static/maps/stylesheets/MainPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/maps/static/maps/stylesheets/MainPage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/maps/templates/maps/MainPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/maps/templates/maps/MainPage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/maps/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/travel/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/static/travel/assets/video/korea.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/static/travel/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/travel/static/travel/css/base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/templates/_footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/templates/_header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/travel/templates/base.html" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,17 +31,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/travel/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2166">
-              <caret line="114" column="23" selection-start-line="114" selection-start-column="23" selection-end-line="114" selection-end-column="23" />
+            <state relative-caret-position="316">
+              <caret line="88" column="30" selection-start-line="88" selection-start-column="30" selection-end-line="88" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/travel/templates/_footer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
+            <state relative-caret-position="38">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -45,15 +50,15 @@
         <entry file="file://$PROJECT_DIR$/travel/static/travel/css/base.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1501">
-              <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+              <caret line="79" column="2" selection-start-line="79" selection-start-column="2" selection-end-line="79" selection-end-column="2" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maps/templates/maps/MainPage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
+            <state relative-caret-position="407">
               <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
             </state>
           </provider>
@@ -62,7 +67,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maps/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
+            <state relative-caret-position="418">
               <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -85,9 +90,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="266">
               <caret line="14" column="21" selection-start-line="5" selection-start-column="16" selection-end-line="14" selection-end-column="21" />
-              <folding>
-                <element signature="n#style#0;n#button#0;n#ul#0;n#nav#0;n#header#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -109,8 +111,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/travel/settings.py" />
-        <option value="$PROJECT_DIR$/travel/templates/_footer.html" />
         <option value="$PROJECT_DIR$/maps/static/maps/MainPage.css" />
         <option value="$PROJECT_DIR$/travel/templates/base.html" />
         <option value="$PROJECT_DIR$/travel/templates/_header.html" />
@@ -118,6 +118,8 @@
         <option value="$PROJECT_DIR$/maps/static/maps/stylesheets/MainPage.css" />
         <option value="$PROJECT_DIR$/maps/views.py" />
         <option value="$PROJECT_DIR$/maps/templates/maps/MainPage.html" />
+        <option value="$PROJECT_DIR$/travel/settings.py" />
+        <option value="$PROJECT_DIR$/travel/templates/_footer.html" />
       </list>
     </option>
   </component>
@@ -131,7 +133,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-10" />
     <option name="y" value="-10" />
     <option name="width" value="1150" />
@@ -142,55 +144,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
+              <item name="traveltokorea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="traveltokorea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
+              <item name="traveltokorea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="traveltokorea" type="462c0819:PsiDirectoryNode" />
               <item name="travel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="travelToKorea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="travelToKorea" type="462c0819:PsiDirectoryNode" />
-              <item name="travel" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/maps/templates/maps" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -260,24 +235,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/travel/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2166">
-          <caret line="114" column="23" selection-start-line="114" selection-start-column="23" selection-end-line="114" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/travel/templates/_footer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="29" selection-start-line="1" selection-start-column="29" selection-end-line="1" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/travel/static/travel/css/base.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1501">
-          <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+          <caret line="79" column="2" selection-start-line="79" selection-start-column="2" selection-end-line="79" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -292,9 +263,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="14" column="21" selection-start-line="5" selection-start-column="16" selection-end-line="14" selection-end-column="21" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#ul#0;n#nav#0;n#header#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -305,20 +273,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/maps/views.py">
+    <entry file="file://$PROJECT_DIR$/travel/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="316">
+          <caret line="88" column="30" selection-start-line="88" selection-start-column="30" selection-end-line="88" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maps/templates/maps/MainPage.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
+        <state relative-caret-position="407">
           <caret line="96" column="5" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/travel/templates/_footer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>

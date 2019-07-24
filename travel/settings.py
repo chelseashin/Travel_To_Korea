@@ -83,10 +83,10 @@ DATABASES = {
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'MySQL',  #mysql
+        'NAME': 'travel',  #mysql
         'USER': 'root', #root
         'PASSWORD': 'ssafydif', #1234
-        'HOST': '', #공백으로 냅두면 default localhost
+        'HOST': '192.168.31.83', #공백으로 냅두면 default localhost
         'PORT': '' #공백으로 냅두면 default 3306
     }
 }
@@ -132,3 +132,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'travel', 'static'),
 ]
+
+AUTH_USER_MODEL = 'accounts.MyUser'

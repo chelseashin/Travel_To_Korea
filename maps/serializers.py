@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import DetailInform
+# from .models import DetailInform
 
 class DetailInformSerializer(serializers.ModelSerializer):
     class Meta:
