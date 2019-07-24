@@ -5,55 +5,98 @@
 
 <!-- body -->
 {% block body %}
-<div class="layer" id="app">
-    <table >
-        <colgroup>
-            <col width="50%">
-            <col width="50%">
-        </colgroup>
-        <tr>
-            <td>
-                <div class="checkbox">
-                    <input type="checkbox" name="all" value="chk_info" id="chkAll" onclick="checkAll(all)">전체
-                    <input type="checkbox" name="12" value="chk_info" v-on:click="check(12)">관광지
-                    <input type="checkbox" name="14" value="chk_info" v-on:click="check(14)">문화시설
-                    <input type="checkbox" name="15" value="chk_info" v-on:click="check(15)">축제/공연
-                    <input type="checkbox" name="28" value="chk_info" v-on:click="check(28)">레포츠
-                    <input type="checkbox" name="32" value="chk_info" v-on:click="check(32)">숙박
-                    <input type="checkbox" name="38" value="chk_info" v-on:click="check(38)">쇼핑
-                    <input type="checkbox" name="39" value="chk_info" v-on:click="check(39)">음식점
-                </div>
-            </td>
-            <td rowspan="3">
-                <p v-for="list in travelList">[[list]]</p>
-            </td>
-        </tr>
-        <tr>
-             <td>
-              <select id="region" name="region" v-on:change="changeRegion()">
-                  <option value="all">전체보기</option>
-                  [[selectedlist]]
-                    {% for i in value %}
-                        <option value="{{i.code}}">{{i.name}}</option>
-                    {%endfor%}
-                </select>
-                <select id="sigungu" v-on:change="changeSigungu()">
-                    <option  selected disabled hidden>시군구 선택</option>
-                    <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
-                </select>
-             </td>
-        </tr>
-        <tr>
-            <td>
-                <div id="regions_div" style="width: 900px; height: 500px;"></div>
-            </td>
-        </tr>
-    </table>
-</div>
+<div class="main-wrapper">
+    <!-- section-1 -->
+    <div class="section section-1">
+        <div class="section-1-background">
+            <video style="position: relative;" id="videobcg" preload="auto" autoplay="true" loop="loop" muted="muted" volume="0">
+                <source src="{% static 'maps/assets/video/korea.mp4' %}" type="video/mp4">
+            </video>
+        </div>
+        <div class = "section-content">
+          <span id="animationSandbox" style="display: block;" class="heartBeat">
+          	<p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
+          </span>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
+
+    <div class="section section-2">
+        <div class="section-content">
+            <div class="layer" id="app">
+                <table class="scrolltable" cellspacing='0'>
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <tr>
+                        <td>
+                            <div class="checkbox">
+                                <input type="checkbox" name="all" value="chk_info" id="chkAll" onclick="checkAll()">전체
+                                <input type="checkbox" name="12" value="chk_info" v-on:click="check(12)">관광지
+                                <input type="checkbox" name="14" value="chk_info" v-on:click="check(14)">문화시설
+                                <input type="checkbox" name="15" value="chk_info" v-on:click="check(15)">축제/공연
+                                <input type="checkbox" name="28" value="chk_info" v-on:click="check(28)">레포츠
+                                <input type="checkbox" name="32" value="chk_info" v-on:click="check(32)">숙박
+                                <input type="checkbox" name="38" value="chk_info" v-on:click="check(38)">쇼핑
+                                <input type="checkbox" name="39" value="chk_info" v-on:click="check(39)">음식점
+                            </div>
+                        </td>
+                         <td>
+                            <p value="{{i.code}}">{{i.name}}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="region" name="region" v-on:change="changeRegion()">
+                                <option value="all">전체보기</option>
+                                [[selectedlist]]
+                                {% for i in value %}
+                                <option value="{{i.code}}">{{i.name}}</option>
+                                {%endfor%}
+                            </select>
+                            <select id="sigungu" v-on:change="changeSigungu()">
+                                <option  selected disabled hidden>시군구 선택</option>
+                                <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
+                            </select>
+                        </td>
+                        <td rowspan="2"  height="500" valign="top">
+                            <div style="overflow-y:scroll; height:100%; width:100%">
+                                <p v-for="list in travelList">[[list]]</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{% static 'maps/img/earth.gif' %}">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-3">
+        <div class="section-content">
+            <!-- To do -->
+            <div id="left" style="float: left; width: 45%;">
+                <p style="text-align: left; font-size: 25px">왼쪽</p>
+                <img src="{% static 'maps/img/left.png' %}" style="width:49%">
+            </div>
+
+            <div id="right" style="float: right; width: 50%">
+                <p style="text-align: left; font-size: 25px">오른쪽</p>
+                <img src="{% static 'maps/img/right.png' %}" style="width:49%">
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
 
 var app = new Vue({
     el: '#app',
@@ -115,58 +158,12 @@ Vue.config.devtools = true;
     <!--전체선택-->
       function checkAll(box){
           if( $("#chkAll").is(':checked') ){
-            $("input[name=chk_info]").prop("checked", true);
+            $("input[value=chk_info]").prop("checked", true);
           }else{
-            $("input[name=chk_info]").prop("checked", false);
+            $("input[value=chk_info]").prop("checked", false);
           }
        }
 
 </script>
 
-<!-- 지도 그리기 -->
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
- google.charts.load('current', {
-   'packages':['geochart'],
-   // Note: you will need to get a mapsApiKey for your project.
-   // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
-   'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
- });
- google.charts.setOnLoadCallback(drawRegionsMap);
- function drawRegionsMap() {
-   var data = google.visualization.arrayToDataTable([
-     ['Provinces', 'Popularity'],
-     ['서울', 978],
-     ['경기도', 1234],
-     ['부산광역시', 345],
-     ['대전광역시', 155],
-     ['대구광역시', 267],
-     ['울산광역시', 117],
-     ['인천광역시', 293],
-     ['충청북도', 158],
-     ['충청남도', 206],
-     ['광주광역시', 150],
-     ['전라북도', 187],
-     ['전라남도', 190],
-     ['경상북도', 270],
-     ['경상남도', 345],
-     ['강원도', 157],
-     ['Jeju', 64],
-   ]);
-   var options = {
-       region: 'KR',
-       resolution: 'provinces',
-       zoomControl:true,
-       scaleControl:true,
-       keepAspectRatio: false,
-    //    colorAxis: {colors: ['#64f57c', '#f071d4', '#9c29e3']},
-       backgroundColor: '#81d4fa',
-    //    datalessRegionColor: '#f8bbd0',
-    //    defaultColor: '#f5f5f5',
-   };
-   var chart = new google.visualization.GeoChart(document.getElementById('regions_div'), {zoom: 4});
-   chart.draw(data, options);
- }
-</script>
-
-{% endblock %}
+    {% endblock %}

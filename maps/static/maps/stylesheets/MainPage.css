@@ -10,9 +10,11 @@ border:1px solid black;
 }
 /*테이블 실선 끝*/
 
-/*div 중앙정렬 시작*/
-.layer{
-
+/*테이블 스크롤기능 구현!!*/
+<style>
+.table-wrapper {
+    overflow: auto;
+    border:2px solid red;
 }
-
-/*div 중앙정렬 끝*/
+</style>
+/*테이블 스크롤기능 구현 끝*/
