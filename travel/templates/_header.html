@@ -1,18 +1,27 @@
 {% load static %}
-<header>
-            <h1 >Travel To Korea</h1>
-            <h2 >Lets Your Story Begin</h2>
-            <nav >
+
+    <div class="header-wrapper"  style="background: rgba(0,0,0,0.4)">
+        <div class="header-contents" >
+            <!-- 타이틀 -->
+            <img src="{% static 'travel/img/logo_transparent.png' %}" style="width:100px">
+
+            <!-- 상단 메뉴 && 모바일 메뉴 -->
+            <div class="nav-bar">
                 <ul>
-                    <li><a href="#" class="selected">About</a></li>
-                    <li><a href="#">Link1</a></li>
-                    <li><a href="#">Link2</a></li>
-                    <li><a href="#">Link3</a></li>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            style="background-color: #FF1493;border-color: #212529;box-shadow: none">
-                        LOGIN
-                    </button>
+                    <li>
+                        <a class="a-nav-bar" onClick="#" style="color: white">About</a>
+                    </li>
+                    <li>
+                        <a class="a-nav-bar" onClick="#" style="color: white">My page</a>
+                    </li>
+                    <li>
+                        <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                style="color:white;background-color: none;border-color: #212529;box-shadow: none">
+                            Login
+                        </button>
+                    </li>
                 </ul>
-            </nav>
-</header>
+            </div>
+        </div>
+    </div>
 {% include 'accounts/SignUp.html' %}
