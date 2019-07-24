@@ -9,10 +9,10 @@
 <h2 >Lets Your Story Begin</h2>
 <!-- 로그인 되어 있는 경우 -->
 {% if user.is_active %}
-    <p class="text-center" style="color:aliceblue">{{ user.username }}님, 환영합니다!</p>
+    <p class="text-center" style="color:aliceblue">{{ user.nickname }}님, 환영합니다!</p>
 <!-- 로그인 되어 있지 않은 경우 -->
 {% else %}
-    <p class="text-center" style="color:aliceblue">더 많은 기능을 이용하시려면 <a href="{% url 'accounts:login' %}">로그인</a> 해주세요!</p>
+    <p class="text-center" style="color:aliceblue">더 많은 기능을 이용하시려면 로그인 해주세요!</p>
 {% endif %}
 <nav>
     <ul>
@@ -22,63 +22,153 @@
         <li><a href="#">MyPage</a></li>
         <!-- 로그인 되어있는 경우 -->
         {% if user.is_active %}
-        
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                style="background-color: #FF1493;border-color: #212529;box-shadow: none">
-                <a href="{% url 'accounts:logout' %}">LOGOUT</a>
-        </button>
-    
+        <li>
+            <v-layout wrap justify-center>
+                <v-btn
+                  color="pink"
+                  dark
+                  @click.stop="logout()"
+                >
+                LogOut
+                </v-btn>
+        </li>
         <!-- 로그인 되어있지 않은 경우 -->
         {% else %}
-        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                style="background-color: #FF1493;border-color: #212529;box-shadow: none">
-            LOGIN
-        </button> -->
+        <li>
         <div id="app">
-        <v-layout row justify-center>
+        <v-layout>
+
                 <v-btn
-                  color="primary"
+                  color="pink"
                   dark
-                  @click.stop="dialog = true"
+                  @click="dialog = true"
                 >
                   LogIn
                 </v-btn>
-            
+                <!-- Login modal -->
                 <v-dialog
                   v-model="dialog"
-                  max-width="500"
-                  max-height="500"
+                  max-width="600px"
                 >
                   <v-card>
-                    <v-card-title class="headline">Use Google's location service?</v-card-title>
-            
-                    <v-card-text>
-                      Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
-                    </v-card-text>
-            
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-            
-                      <v-btn
-                        color="green darken-1"
-                        flat="flat"
-                        @click="dialog = false"
-                      >
-                        Disagree
-                      </v-btn>
-            
-                      <v-btn
-                        color="green darken-1"
-                        flat="flat"
-                        @click="dialog = false"
-                      >
-                        Agree
+                    <v-card-title class="headline">LogIn</v-card-title>
+                    <v-form
+                      ref="form"
+                      v-model="valid"
+                      :lazy-validation="lazy"
+                    >
+                      <v-text-field
+                        v-model="email"
+                        :rules="emailRules"
+                        label="E-mail"
+                        required
+                      ></v-text-field>
+
+                      <v-text-field
+                        v-model="password"
+                        :rules="passwordRules"
+                        label="Password"
+                        required
+                      ></v-text-field>
+                      <v-card-text>
+                        로그인 하시면 더 많은 기능을 이용하실 수 있습니다^_^<br>
+                        카카오 로그인<br>
+                        구글 로그인
+                      </v-card-text>
+              
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+              
+                        <v-btn
+                          color="pink"
+                          flat="flat"
+                          @click="showSignup()"
+                        >
+                          SignUp
+                        </v-btn>
+              
+                        <v-btn
+                          color="pink"
+                          flat="flat"
+                          @click="dialog = false"
+                        >
+                        Submit
                       </v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+
+                <!-- Signup modal -->
+                <v-dialog
+                  v-model="dialog2"
+                  max-width="600px"
+                >
+                  <v-card>
+                    <v-card-title class="headline">SignUp</v-card-title>
+                    <v-form
+                      ref="form"
+                      v-model="valid"
+                      :lazy-validation="lazy"
+                    >
+                    <v-card-text>
+                        <v-container grid-list-md>
+                          <v-layout wrap>
+                            <v-flex xs12 sm6 md4>
+                              <v-text-field label="Nickname*" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                              <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6 md4>
+                              <v-text-field
+                                label="Legal last name*"
+                                hint="example of persistent helper text"
+                                persistent-hint
+                                required
+                              ></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                              <v-text-field label="Email*" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                              <v-text-field label="Password*" type="password" required></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm6>
+                              <v-select
+                                :items="['0-17', '18-29', '30-54', '54+']"
+                                label="Age*"
+                                required
+                              ></v-select>
+                            </v-flex>
+                            <v-flex xs12 sm6>
+                              <v-autocomplete
+                                :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                                label="Interests"
+                                multiple
+                              ></v-autocomplete>
+                            </v-flex>
+                          </v-layout>
+                        </v-container>
+                        <small>*indicates required field</small>
+                      </v-card-text>
+
+                      <v-card-text>
+                        저희 사이트의 회원이 된 것을 환영합니다^_^
+                      </v-card-text>
+              
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+              
+                        <v-btn color="pink" flat @click="dialog2 = false">Close</v-btn>
+                        <v-btn color="pink" flat @click="dialog2 = false">Save</v-btn>
+
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+
               </v-layout>
             </div>
+          </li>
         {% endif %}
     </ul>
     
@@ -92,7 +182,14 @@
         el: '#app',
         data: {
             dialog: false,
-            message: 'hi'
+            dialog2: false,
+        },
+        // login & logout 기능
+        methods: {
+          showSignup: function() {
+            this.dialog = false;
+            this.dialog2 = true;
+          }
         }
     })
 </script>
