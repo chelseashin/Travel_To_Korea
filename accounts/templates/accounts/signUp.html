@@ -61,7 +61,6 @@ button:hover {
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
   background-color: #474e5d;
   padding-top: 50px;
 }
@@ -77,7 +76,7 @@ button:hover {
 /* Style the horizontal ruler */
 hr {
   border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 /* The Close Button (x) */
@@ -103,6 +102,7 @@ hr {
   display: table;
 }
 
+
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
   .cancelbtn, .signupbtn {
@@ -111,24 +111,29 @@ hr {
 }
 </style>
 <body>
-
-
 <div id="id02" class="modal">
   <form class="modal-content" action="#">
-    <div class="container">
-      <h1>회원가입</h1>
-      <p>Please fill in this form to create an account.</p>
+    <div class="container" style="flow">
+      <h1 style="text:bold">회원가입</h1>
       <hr>
-      <label for="email"><b>Email</b></label>
+      <label for="email"><b>이메일</b></label>
       <input type="text" placeholder="Enter Email" name="email" required>
 
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <label for="password"><b>비밀번호</b></label>
+      <input type="password" placeholder="Enter Password" name="password" required>
 
-      <label for="psw-repeat"><b>Repeat Password</b></label>
-      <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+      <label for="password-repeat"><b>비밀번호 재입력</b></label>
+      <input type="password" placeholder="Repeat Password" name="Password-repeat" required>
 
-      <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
+      <label for="nickname"><b>이름</b></label>
+      <input type="text" placeholder="Enter Nickname" name="nickname" required>
+
+      <label for="gender"><b>성별</b></label>
+      <input type="radio" name="gender" value="male"> 남자
+      <input type="radio" name="gender" value="female"> 여자<br><br>
+
+      <label for="birth"><b>생년월일</b></label>
+      <input type="date" name="birth">
 
       <div class="clearfix">
         <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
