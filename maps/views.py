@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
 from django.conf.urls import url
-import urllib.request
-import json
-import pprint
+from django.http import JsonResponse
+import urllib.request, json, pprint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Common, Detail
-# from .serializers import DetailInformSerializer
-# from .models import DetailInform
+from .serializers import CommonSerializer
 
 
 # Create your views here.
@@ -206,3 +204,12 @@ def detailpage(request, content_id):
 
 def map(request):
     return render(request, 'maps/map.html')
+
+@api_view(['GET'])
+def commonserializers(request):
+    '''
+    공통정보 출력
+    '''
+    commons = Common.objects.all()
+    serializer = CommonSerializer(commons, many=True)
+    return Response(serializer.data)
