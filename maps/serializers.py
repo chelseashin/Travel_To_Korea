@@ -1,7 +1,7 @@
 from rest_framework import serializers
-# from .models import DetailInform
+from .models import Common
 
-class DetailInformSerializer(serializers.ModelSerializer):
+class CommonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DetailInform
+        model = Common
         fields = '__all__'
