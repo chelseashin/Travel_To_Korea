@@ -30,30 +30,24 @@
                         <col width="50%">
                     </colgroup>
                     <tr>
-                        <td>
-                            <div class="checkbox">
-                                <input type="checkbox" name="all" value="chk_info" id="chkAll" onclick="checkAll()">전체
-                                <input type="checkbox" name="12" value="chk_info" v-on:click="check(12)">관광지
-                                <input type="checkbox" name="14" value="chk_info" v-on:click="check(14)">문화시설
-                                <input type="checkbox" name="15" value="chk_info" v-on:click="check(15)">축제/공연
-                                <input type="checkbox" name="28" value="chk_info" v-on:click="check(28)">레포츠
-                                <input type="checkbox" name="32" value="chk_info" v-on:click="check(32)">숙박
-                                <input type="checkbox" name="38" value="chk_info" v-on:click="check(38)">쇼핑
-                                <input type="checkbox" name="39" value="chk_info" v-on:click="check(39)">음식점
-                            </div>
-                        </td>
-                         <td>
-                            <p value="{{i.code}}">{{i.name}}</p>
-                        </td>
+                        <div class="checkbox">
+                            <td>
+                                <input type="checkbox" @click="checkAll" v-model="allSelected">전체
+                            </td>
+                            <td v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.id">[[i.name]]</td>
+                        </div>
+                    <td>
+                        <p value="{{i.code}}">{{i.name}}</p>
+                    </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="8">
                             <select id="region" name="region" v-on:change="changeRegion()">
                                 <option value="all">전체보기</option>
                                 [[selectedlist]]
                                 {% for i in value %}
                                 <option value="{{i.code}}">{{i.name}}</option>
-                                {%endfor%}
+                                {% endfor %}
                             </select>
                             <select id="sigungu" v-on:change="changeSigungu()">
                                 <option  selected disabled hidden>시군구 선택</option>
@@ -66,9 +60,9 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <img src="{% static 'maps/img/earth.gif' %}">
+                    <tr >
+                        <td colspan="8">
+                            {% include 'maps/korea.html' %}
                         </td>
                     </tr>
                 </table>
@@ -105,8 +99,19 @@ var app = new Vue({
             selectedlist:[],
             travelList:[],
             checked:false,
+            allSelected:false,
             areacode:'',
             sigungucode:'',
+            chk_info:[],
+            kategorie:[
+                { id : '12', name : '관광'},
+                { id : '14', name : '문화'},
+                { id : '15', name : '축제'},
+                { id : '28', name : '레포츠'},
+                { id : '32', name : '숙박'},
+                { id : '38', name : '쇼핑'},
+                { id : '39', name : '음식'}
+            ],
     },
     methods:{
         <!--대분류 선택시-->
@@ -134,6 +139,7 @@ var app = new Vue({
         },
         <!--체크시 값 출력-->
          check :function(value){
+            this.allSelected=false
             if(this.checked==false){this.checked=true}
             if (this.checked==true){
                  let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
@@ -147,20 +153,32 @@ var app = new Vue({
                      });
                      console.log(this.travelList)
                  });
+                 this.travelList = []
             }
             else{
                 this.travelList=[]
             }
-         }
+         },
+         checkAll:function(){
+            this.chk_info = [];
+
+            if (this.allSelected) {
+                for (chk in this.kategorie) {
+                    this.chk_info.push(this.kategorie[chk].name.toString());
+                }
+            }
+        }
     },
 });
 Vue.config.devtools = true;
+
     <!--전체선택-->
-      function checkAll(box){
-          if( $("#chkAll").is(':checked') ){
-            $("input[value=chk_info]").prop("checked", true);
+      function checkAll(){
+        alert("checkall")
+          if( $('#chkAll').is(":checked") ){
+            $('input:checkbox[name=chk_info]').prop("checked", true);
           }else{
-            $("input[value=chk_info]").prop("checked", false);
+            $('input:checkbox[name=chk_info]').prop("checked", false);
           }
        }
 
