@@ -36,8 +36,11 @@ def korea(request):
     return render(request, 'maps/korea.html')
 
 
+# api db 저장 및 update
 def detailcommon(request):
-    ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+    # ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+    # ServiceKey = "5Z64FYjCYoIRrToMriTzGi%2BbzlzcHOFJKdG9NFgR77i52r%2BCCi6XbU9gpq15l8fEGojdilIdq0iyzQvIpe3BlQ%3D%3D"
+    ServiceKey = "GK%2BXkUwSbqiqfXfrJ2VPSperv70MFPcgz0%2Fo1NqOV%2FGlNX4AdA5wzyWdvTHPpaXtFSMSjrR1AhRE%2FEaCW37V9g%3D%3D"
     url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey="
     option = "&contentTypeId=&defaultYN=Y&overviewYN=Y&addrinfoYN=Y&areacodeYN=Y&sigungucodeYN=Y&numOfRows=25344&pageNo=1&MobileOS=AND&MobileApp=travel5&_type=json"
     url_ = url + ServiceKey + option
@@ -47,13 +50,13 @@ def detailcommon(request):
     rescode = response.getcode()
     print(rescode)
 
+
     if (rescode == 200):
-        column_list = ['contentId', 'category', 'tel', 'addr1', 'addr2', 'area', 'sigungu', 'title',  'overview', 'zipCode', 'homepage']
-        items_list = ['contentid','contenttypeid', 'tel', 'addr1', 'addr2', 'areacode', 'sigungucode', 'title', 'overview', 'zipcode', 'homepage']
+        column_list = ['contentId', 'category', 'tel', 'addr1', 'addr2', 'area', 'sigungu', 'title',  'overview', 'zipCode', 'homepage', 'mapx', 'mapy']
+        items_list = ['contentid','contenttypeid', 'tel', 'addr1', 'addr2', 'areacode', 'sigungucode', 'title', 'overview', 'zipcode', 'homepage', 'mapx', 'mapy']
         response_body = response.read()
         dict = json.loads(response_body.decode('utf-8'))
         items = dict['response']['body']['items']['item'] 
-        # pprint.pprint(items)
 
         for item in items :
             result_value = []
@@ -63,144 +66,242 @@ def detailcommon(request):
                     result_value.append(item[i])
                     result_column.append(column_list[items_list.index(i)])
                 else:
-                    if items_list.index(i) in [0, 1, 5, 6]:
+                    if items_list.index(i) in [0, 1, 5, 6, 11, 12]:
                         result_value.append(0)
                     else:
-                        result_value.append('')
+                        result_value.append('없음')
                     result_column.append(column_list[items_list.index(i)])
             
-            common = Common.objects.get(pk=int(result_value[0]))
-            common.update(contentId=int(result_value[0]), category=int(result_value[1]), tel=result_value[2], 
+            common = Common(contentId=int(result_value[0]), category=int(result_value[1]), tel=result_value[2], 
                             addr1=result_value[3], addr2=result_value[4], area=int(result_value[5]),
                             sigungu=int(result_value[6]), title=result_value[7], overview=result_value[8],
-                            zipCode=result_value[9], homepage=result_value[10])
-            common.save()
+                            zipCode=result_value[9], homepage=result_value[10], 
+                            mapx=float(result_value[11]), mapy=float(result_value[12]))
+            
+            # image 저장
+            # detail_key = "5Z64FYjCYoIRrToMriTzGi%2BbzlzcHOFJKdG9NFgR77i52r%2BCCi6XbU9gpq15l8fEGojdilIdq0iyzQvIpe3BlQ%3D%3D"
+            detail_key = "GK%2BXkUwSbqiqfXfrJ2VPSperv70MFPcgz0%2Fo1NqOV%2FGlNX4AdA5wzyWdvTHPpaXtFSMSjrR1AhRE%2FEaCW37V9g%3D%3D"
+            # detail_key = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+            image_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?ServiceKey={detail_key}&contentId={int(result_value[0])}&imageYN=Y&MobileOS=ETC&MobileApp=AppTest&_type=json"
+            temp_url = urllib.request.urlopen(image_url)
+            # print(image_url)
+            f = temp_url.read()
+            content = json.loads(f.decode('utf-8'))
+            # pprint.pprint(content)
+            image_items = content['response']['body']['items']
+            # pprint.pprint(image_items)
+            image_list = []
+            if image_items == '' :
+                image_list.append("null")
+            else:
+                for item in image_items['item'] :
+                    if type({'key':'1'}) == type(item):
+                        image_list.append(item['originimgurl'])
+                    else:
+                        # print(image_items['item']['originimgurl'])
+                        image_list.append(image_items['item']['originimgurl'])
+            common.image = image_list
+            
+            # overview
+            detailinfo_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey={detail_key}&contentId={int(result_value[0])}&defaultYN=Y&overviewYN=Y&MobileOS=ETC&MobileApp=AppTest&_type=json"
+            temp_url = urllib.request.urlopen(detailinfo_url)
+            f = temp_url.read()
+            content = json.loads(f.decode('utf-8'))
+            # pprint.pprint(content)
+            detail_items = content['response']['body']['items']['item']
+            # pprint.pprint(detail_items)
+            if 'homepage' in detail_items.keys():
+                homepy = detail_items['homepage']
+                common.homepage = homepy
+            if 'overview' in detail_items.keys():
+                infotext = detail_items['overview']
+                common.overview = infotext
+            common.save()                                                                                                           
+            
+            print('----------------------------------')
+            # detail 저장
+            detailintro_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey={detail_key}&contentId={int(result_value[0])}&contentTypeId={int(result_value[1])}&MobileOS=ETC&MobileApp=AppTest&_type=json&numOfRows="
+            temp_url = urllib.request.urlopen(detailintro_url)
+            f = temp_url.read()
+            content = json.loads(f.decode('utf-8'))
+            detail_items = content['response']['body']['items']['item']
+            # pprint.pprint(detail_items)
+            detail = Detail()
+            detail_pk = int(result_value[0])
+            category = int(result_value[1])
+            detail.detailId = Common.objects.get(contentId=detail_pk)
+            detail.save()
+
+            # 관광지
+            if category == 12 :
+                detail_set = {
+                    'chkBaby' : 'chkbabycarriage',
+                    'chkPet' : 'chkpet',
+                    'ageLimit' : 'expagerange',
+                    'restDate' : 'restdate',
+                    'useTime' : 'usetime'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        detail = Detail.objects.get(detailId=detail_pk)
+                        key = k
+                        value = v
+                        detail(key = detail_items[value])
+                        print(key,value, detail_items[value], detail.key)
+                        detail.save()
+
+
+            # 행사/공연/축제
+            if category == 15 :
+                detail_set = {
+                    'ageLimit' : 'agelimit',
+                    'startTime' : 'eventstartdate',
+                    'endTime' : 'eventenddate',
+                    'subevent' : 'subevent'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+
+
+            # 문화시설
+            if category == 14 :
+                detail_set = {
+                    'chkBaby' : 'chkbabycarriageculture',
+                    'chkPet' : 'chkpetculture',
+                    'discountInfo' : 'discountinfo',
+                    'pay' : 'usefee'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+
+
+            # 레포츠
+            if category == 28 :
+                detail_set = {
+                    'chkBaby' : 'chkbabycarriageleports',
+                    'chkPet' : 'chkpetleports',
+                    'ageLimit' : 'agelimit',
+                    'openPeriod' : 'openperiod',
+                    'pay' : 'usefeeleports'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+
+            # 숙박
+            if category == 32 :
+                detail_set = {
+                    'chkinTime' : 'checkintime',
+                    'chkoutTime' : 'checkouttime',
+                    'chkCook' : 'chkcooking',
+                    'subevent' : 'subfacility',
+                    'refund' : 'refundrequlation'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+                
+            # 쇼핑
+            if category == 38 :
+                detail_set = {
+                    'chkBaby' : 'chkbabycarriageshopping',
+                    'chkPet' : 'chkpetshopping',
+                    'openPeriod' : 'chkcooking',
+                    'subevent' : 'opendateshopping',
+                    'openTime' : 'opentime'
+                }
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+            
+            
+            # 음식점
+            if category == 39 :
+                detail_set = {
+                    'discountInfo' : 'discountinfofood',
+                    'chkBaby' : 'kidsfacility',
+                    'chkPack' : 'packing',
+                    'chkSmoking' : 'smoking',
+                    'openTime' : 'opentimefood'
+                }
+
+                for k, v in detail_set.items():
+                    if v in detail_items.keys():
+                        key = k
+                        value = v
+                        detail.key = detail_items[value]
+                print(detail)
+                detail.save()
+
+            detail.common = common
+            detail.save()
+    else:
+        print("잠시 후에 다시 도전!")
+    return render(request, 'maps/')
+
+# serializer
+def commonserializers(request):
+    commons = Common.objects.all()
+    serializer = CommonSerializer(commons, many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+
+
+# main page
+def main(request):
+    ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+    url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/"
+    key = "?ServiceKey=" + ServiceKey
+    get = "areaCode"
+    option = "&numOfRows=17&pageNo=1&MobileOS=AND&MobileApp=travel5&_type=json"
+    url_ = url + get + key + option
+
+    request_ = urllib.request.Request(url_)
+    response = urllib.request.urlopen(request_)
+    rescode = response.getcode()
+
+    if (rescode == 200):
+        response_body = response.read()
+        dict = json.loads(response_body.decode('utf-8'))
+        value = dict['response']['body']['items']['item']
+        context = {'value': value }
+        return render(request, 'maps/MainPage.html', context)
     else:
         print("Error Code:" + rescode)
-    return redirect('/maps/')
+        return render(request, 'maps/MainPage.html')
 
+# main_map
+def korea(request):
+    return render(request, 'maps/korea.html')
 
-
-def getInform(items, key_lists, lists):
-    inform = {}
-    value_lists = []
-    # 값 없는거 빼기
-    for i in items:
-        if i in lists :
-            value_lists.append((lists.index(i),i))
-            print(i)
-    value_lists.sort()
-    # print(value_lists)
-    for i in range(len(value_lists)) :
-        inform.update({key_lists[value_lists[i][0]]:items[value_lists[i][1]]})
-    return inform
-
-
-# detail page
-def detailpage(request, content_id):
-    content_type_code = {'관광지' : 12, '문화시설':14, '행사/공연/축제' : 15, 
-                        '레포츠':28, '숙박':32, '쇼핑':38, '음식점':39}
-    servicekey = "GK%2BXkUwSbqiqfXfrJ2VPSperv70MFPcgz0%2Fo1NqOV%2FGlNX4AdA5wzyWdvTHPpaXtFSMSjrR1AhRE%2FEaCW37V9g%3D%3D"
-    # print(content_id, servicekey)
-
-    # 공통 정보 조회 (간단한 정보만)
-    pre_url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey="
-    common_url = pre_url + servicekey + "&contentId=" + str(content_id) + "&defaultYN=Y&MobileOS=ETC&MobileApp=AppTest&_type=json"
-    print(common_url)
-
-    # image를 위한 contentTypeId 가져오기
-    temp_url = urllib.request.urlopen(common_url)
-    f = temp_url.read()
-    content = json.loads(f.decode('utf-8'))
-    content_type_id = content['response']['body']['items']['item']['contenttypeid']
-    title = content['response']['body']['items']['item']['title']
-    print(content_type_id, title)
-
-    # image 가져오기
-    image_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage?ServiceKey={servicekey}&contentId={content_id}&contentTypeId={content_type_id}&MobileOS=ETC&MobileApp=AppTest&_type=json"
-    # print(image_url)
-    temp_url = urllib.request.urlopen(image_url)
-    f = temp_url.read()
-    content = json.loads(f.decode('utf-8'))
-    # pprint.pprint(content)
-    image_items = content['response']['body']['items']['item']
-    image_list = []
-    for i in image_items :
-        image_list.append(i['originimgurl'])
-    print(image_list)
-
-    # 숙박/여행/그 이외 정보 추가
-    detailinfo_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailInfo?ServiceKey={servicekey}&contentId={content_id}&contentTypeId={content_type_id}&MobileOS=ETC&MobileApp=AppTest&_type=json"
-    temp_url = urllib.request.urlopen(detailinfo_url)
-    f = temp_url.read()
-    content = json.loads(f.decode('utf-8'))
-    pprint.pprint(content)
-    detail_items = content['response']['body']['items']['item']
-    pprint.pprint(detail_items[0]['infotext'])
-    infotext = detail_items[0]['infotext']
-    print('---------------------------------')
-
-    # 소개 정보 가져오기
-    detailintro_url = f"http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey={servicekey}&contentId={content_id}&contentTypeId={content_type_id}&MobileOS=ETC&MobileApp=AppTest&_type=json"
-    # print(detailinfo_url)
-    temp_url = urllib.request.urlopen(detailintro_url)
-    f = temp_url.read()
-    content = json.loads(f.decode('utf-8'))
-    pprint.pprint(content)
-    items = content['response']['body']['items']['item']
-    # pprint.pprint(items)
-
-    # 행사/공연/축제
-    if content_type_id == 15 :
-        key_lists = ['관람 가능 연령', '이용 요금', '장소', '행사 시작일', '행사 종료일', '행사 홈페이지']
-        lists = ['agelimit', 'usetimefestival','eventplace', 'eventstartdate', 'eventenddate', 'eventhomepage']
-        inform = getInform(items, key_lists, lists)
-
-    # 관광지
-    if content_type_id == 12 :
-        key_lists = ['체험안내', '이용시기', '이용시간', '주차시설', '문의 및 안내']
-        lists = ['expguide', 'useseason','usetime', 'parking', 'infocenter']
-        inform = getInform(items, key_lists, lists)
-
-    # 문화시설
-    if content_type_id == 14 :
-        key_lists = ['이용시간',' 이용요금', '관람시간', '쉬는날', '주차시설', '할인정보', '문의 및 안내']
-        lists = ['usetimeculture', 'usefee', 'spendtime', 'restdateculture', 
-                'parkingculture','discountinfo', 'infocenterculture']
-        inform = getInform(items, key_lists, lists)
-
-    # 여행코스
-    if content_type_id == 25 :
-        key_lists = ['코스 총거리', '코스 일정', '코스 총 소요시간', '코스 테마', '문의 및 안내']
-        lists = ['distance', 'schedule', 'taketime','theme','infocentertourcourse']
-        inform = getInform(items, key_lists, lists)
-
-    # 레포츠
-    if content_type_id == 28 :
-        key_lists = ['체험 가능연령', '개장기간', '이용시간', '입장료', '쉬는날', '예약안내', '문의 및 안내']
-        lists = ['expagerangeleports', 'openperiod', 'usetimeleports', 'usefeeleports','restdateleports', 'reservation', 'infocenterleports']
-        inform = getInform(items, key_lists, lists)
-
-    # 숙박
-    if content_type_id == 32 :
-        key_lists = ['입실 시간', '퇴실 시간', '주차 시설', '예약안내', '예약안내 홈페이지', '문의 및 안내']
-        lists = ['checkintime', 'checkouttime', 'parkinglodging','reservationlodging', 'reservationurl', 'infocenterlodging']
-        inform = getInform(items, key_lists, lists)
-
-    # 쇼핑
-    if content_type_id == 38 :
-        key_lists = ['개장일', '영업시간','쉬는날', '매장안내', '주차 시설', '문의 및 안내']
-        lists = ['opendateshopping', 'opentime', 'restdateshopping', 'shopguide', 'parkingshopping', 'infocentershopping']
-        inform = getInform(items, key_lists, lists)
     
-    # 음식점
-    if content_type_id == 39 :
-        key_lists = ['대표메뉴', '영업시간', '포장 가능', '예약안내', '어린이 놀이방 여부', '금연/흡연 여부', '주차 시설','문의 및 안내']
-        lists = ['firstmenu', 'opentimefood', 'packing', 'reservationfood', 'kidsfacility','smoking', 'parkingfood','infocenterfood']
-        inform = getInform(items, key_lists, lists)
-    
-    context = {'imageList':image_list, 'inform':inform, 'title':title, 'infotext':infotext}
-    return render(request, 'maps/DetailPage.html', context)
 
 def map(request):
     return render(request, 'maps/map.html')
