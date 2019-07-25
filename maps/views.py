@@ -1,12 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf.urls import url
 from django.http import JsonResponse
 import urllib.request, json, pprint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Common, Detail
-from .serializers import CommonSerializer
-
+from .serializers import CommonSerializer, DetailSerializer, SearchByAreaSerializer, SearchBySigunguSerializer, SearchByCategorySerializer, SearchByContentIdSerializer
+import requests
 
 # Create your views here.
 
@@ -212,4 +212,40 @@ def commonserializers(request):
     '''
     commons = Common.objects.all()
     serializer = CommonSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbyareaserializers(request, area):
+    '''
+    지역코드로 정보 가져오기
+    '''
+    commons = Common.objects.filter(area=area)
+    serializer = SearchByAreaSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbysigunguserializers(request, area, sigungu):
+    '''
+    지역코드, 시군구 코드로 정보 가져오기
+    '''
+    commons = Common.objects.filter(area=area, sigungu=sigungu)
+    serializer = SearchBySigunguSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbycategoryserializers(request, category):
+    '''
+    카테고리로 정보 가져오기
+    '''
+    commons = Common.objects.filter(category=category)
+    serializer = SearchByCategorySerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbycontentidserializers(request, contentid):
+    '''
+    contentid로 정보 가져오기
+    '''
+    commons = Common.objects.filter(contentid=contentid)
+    serializer = SearchByContentIdSerializer(commons, many=True)
     return Response(serializer.data)
