@@ -6,6 +6,8 @@ class Common(models.Model):
     contentId = models.IntegerField(unique=True)
     sigungu = models.IntegerField()
     area = models.IntegerField()
+    mapx = models.FloatField()
+    mapy = models.FloatField()
     category = models.IntegerField()
     title = models.TextField()
     tel = models.TextField()
