@@ -1,14 +1,39 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf.urls import url
-import urllib.request
-import json
-import pprint
+from django.http import JsonResponse
+import urllib.request, json, pprint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Common, Detail
-from .serializers import CommonSerializer
-from django.db import connection
+from .serializers import CommonSerializer, DetailSerializer, SearchByAreaSerializer, SearchBySigunguSerializer, SearchByCategorySerializer, SearchByContentIdSerializer
+import requests
+
+# Create your views here.
+
+def main(request):
+    ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+    url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/"
+    key = "?ServiceKey=" + ServiceKey
+    get = "areaCode"
+    option = "&numOfRows=17&pageNo=1&MobileOS=AND&MobileApp=travel5&_type=json"
+    url_ = url + get + key + option
+
+    request_ = urllib.request.Request(url_)
+    response = urllib.request.urlopen(request_)
+    rescode = response.getcode()
+
+    if (rescode == 200):
+        response_body = response.read()
+        dict = json.loads(response_body.decode('utf-8'))
+        value = dict['response']['body']['items']['item']
+        context = {'value': value }
+        return render(request, 'maps/MainPage.html', context)
+    else:
+        print("Error Code:" + rescode)
+        return render(request, 'maps/MainPage.html')
+
+def korea(request):
+    return render(request, 'maps/korea.html')
 
 
 # api db 저장 및 update
@@ -280,3 +305,48 @@ def korea(request):
 
 def map(request):
     return render(request, 'maps/map.html')
+
+@api_view(['GET'])
+def commonserializers(request):
+    '''
+    공통정보 출력
+    '''
+    commons = Common.objects.all()
+    serializer = CommonSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbyareaserializers(request, area):
+    '''
+    지역코드로 정보 가져오기
+    '''
+    commons = Common.objects.filter(area=area)
+    serializer = SearchByAreaSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbysigunguserializers(request, area, sigungu):
+    '''
+    지역코드, 시군구 코드로 정보 가져오기
+    '''
+    commons = Common.objects.filter(area=area, sigungu=sigungu)
+    serializer = SearchBySigunguSerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbycategoryserializers(request, category):
+    '''
+    카테고리로 정보 가져오기
+    '''
+    commons = Common.objects.filter(category=category)
+    serializer = SearchByCategorySerializer(commons, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def searchbycontentidserializers(request, contentid):
+    '''
+    contentid로 정보 가져오기
+    '''
+    commons = Common.objects.filter(contentid=contentid)
+    serializer = SearchByContentIdSerializer(commons, many=True)
+    return Response(serializer.data)
