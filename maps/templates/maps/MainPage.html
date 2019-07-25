@@ -15,7 +15,7 @@
         </div>
         <div class = "section-content">
           <span id="animationSandbox" style="display: block;" class="heartBeat">
-          	<p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
+             <p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
           </span>
         </div>
     </div>
@@ -26,18 +26,18 @@
             <div class="layer" id="app">
                 <table class="scrolltable" cellspacing='0' fixed>
                     <colgroup>
-                        <col width="50%">
-                        <col width="50%">
+                        <col width="30%">
+                        <col width="70%">
                     </colgroup>
                     <tr>
                         <div class="checkbox">
                             <td>
                                 <input type="checkbox" @click="checkAll" v-model="allSelected">전체
                             </td>
-                            <td v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.id">[[i.name]]</td>
+                            <td v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</td>
                         </div>
                     <td>
-                        <p value="{{i.code}}">{{i.name}}</p>
+                        <p>[[chk_info]]</p>
                     </td>
                     </tr>
                     <tr>
@@ -86,8 +86,6 @@
     </div>
 
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
@@ -98,11 +96,11 @@ var app = new Vue({
     data: {
             selectedlist:[],
             travelList:[],
-            checked:false,
             allSelected:false,
             areacode:'',
             sigungucode:'',
             chk_info:[],
+            flag:true,
             kategorie:[
                 { id : '12', name : '관광'},
                 { id : '14', name : '문화'},
@@ -140,8 +138,11 @@ var app = new Vue({
         <!--체크시 값 출력-->
          check :function(value){
             this.allSelected=false
-            if(this.checked==false){this.checked=true}
-            if (this.checked==true){
+            for(i in this.chk_info){
+                if(i.id==value){
+                }
+            }
+            if(this.flag){
                  let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
                  axios.get(base_URL)
                  .then(response => {
@@ -153,10 +154,10 @@ var app = new Vue({
                      });
                      console.log(this.travelList)
                  });
+                 this.flag=false
+            }else{
                  this.travelList = []
-            }
-            else{
-                this.travelList=[]
+                 this.flag=true
             }
          },
          checkAll:function(){
