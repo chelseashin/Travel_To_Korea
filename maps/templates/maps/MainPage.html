@@ -15,7 +15,7 @@
         </div>
         <div class = "section-content">
           <span id="animationSandbox" style="display: block;" class="heartBeat">
-          	<p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
+             <p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
           </span>
         </div>
     </div>
@@ -100,7 +100,6 @@ var app = new Vue({
             areacode:'',
             sigungucode:'',
             chk_info:[],
-            chk_id;[],
             flag:true,
             kategorie:[
                 { id : '12', name : '관광'},
@@ -139,9 +138,11 @@ var app = new Vue({
         <!--체크시 값 출력-->
          check :function(value){
             this.allSelected=false
-            for(i in this.chk_id){
-                alert(i)
+            for(i in this.chk_info){
+                if(i.id==value){
+                }
             }
+            if(this.flag){
                  let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
                  axios.get(base_URL)
                  .then(response => {
@@ -153,7 +154,11 @@ var app = new Vue({
                      });
                      console.log(this.travelList)
                  });
+                 this.flag=false
+            }else{
                  this.travelList = []
+                 this.flag=true
+            }
          },
          checkAll:function(){
             this.chk_info = [];
@@ -161,7 +166,6 @@ var app = new Vue({
             if (this.allSelected) {
                 for (chk in this.kategorie) {
                     this.chk_info.push(this.kategorie[chk].name.toString());
-                    this.chk_info.push(this.kategorie[chk].id);
                 }
             }
         }
