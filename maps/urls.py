@@ -11,6 +11,5 @@ urlpatterns = [
     path('map/', views.map, name="map"),
     path('map/update/', views.detailcommon, name="detailcommon"),
     path('korea/', views.korea, name='korea'),
-    path('test/', views.test),
-
+    path('serial/', views.commonserializers, name="commonserial")
     ]
