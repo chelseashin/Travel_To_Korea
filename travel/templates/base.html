@@ -10,12 +10,45 @@
     <title>{% block title %}Travel to Korea - {% endblock %}</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'travel/css/base.css' %}">
-    
+
+    <style>
+    .modal {
+        color: darkgray;
+    }
+
+    .modal-vue .overlay {
+      position: fixed;
+      z-index: 9998;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, .5);
+        transition: opacity .3s ease;
+    }
+
+    .modal-vue .modal {
+      position: relative;
+      width: 300px;
+      z-index: 9999;
+      margin: 0px auto;
+      padding: 20px 30px;
+      background-color: #fff;
+        transition: all .3s ease;
+    }
+
+    .modal-vue .close{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+</style>
+
     {% block css %} {% endblock %}
 
 </head>
 <body>
-    
     {% include '_header.html' %}
     {% block body %}
     {% endblock %}
