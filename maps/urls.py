@@ -11,5 +11,9 @@ urlpatterns = [
     path('map/', views.map, name="map"),
     path('map/update/', views.detailcommon, name="detailcommon"),
     path('korea/', views.korea, name='korea'),
-
+    path('common/', views.commonserializers),
+    path('common/<int:area>/', views.searchbyareaserializers),
+    path('common/<int:area>/<int:sigungu>/', views.searchbysigunguserializers),
+    path('common/<int:category>/', views.searchbycategoryserializers),
+    path('common/<int:contentid>/', views.searchbycontentidserializers),
     ]
