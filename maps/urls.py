@@ -34,6 +34,7 @@ urlpatterns = [
     
     path('', views.main, name='main'),
     path('map/', views.map, name="map"),
+    path('map/update/', views.detailcommon, name="detailcommon"),
     path('korea/', views.korea, name='korea'),
     path('detail/<int:content_id>/', views.detailpage),
     # path('docs/', get_swagger_view(title="여행 정보 API")),

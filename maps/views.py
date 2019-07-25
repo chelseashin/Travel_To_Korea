@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.conf.urls import url
 import urllib.request
 import json
 import pprint
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from .models import Common, Detail
 # from .serializers import DetailInformSerializer
 # from .models import DetailInform
 
@@ -36,6 +37,52 @@ def main(request):
 def korea(request):
     return render(request, 'maps/korea.html')
 
+
+def detailcommon(request):
+    ServiceKey = "tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D"
+    url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey="
+    option = "&contentTypeId=&defaultYN=Y&overviewYN=Y&addrinfoYN=Y&areacodeYN=Y&sigungucodeYN=Y&numOfRows=25344&pageNo=1&MobileOS=AND&MobileApp=travel5&_type=json"
+    url_ = url + ServiceKey + option
+
+    request_ = urllib.request.Request(url_)
+    response = urllib.request.urlopen(request_)
+    rescode = response.getcode()
+    print(rescode)
+
+    if (rescode == 200):
+        column_list = ['contentId', 'category', 'tel', 'addr1', 'addr2', 'area', 'sigungu', 'title',  'overview', 'zipCode', 'homepage']
+        items_list = ['contentid','contenttypeid', 'tel', 'addr1', 'addr2', 'areacode', 'sigungucode', 'title', 'overview', 'zipcode', 'homepage']
+        response_body = response.read()
+        dict = json.loads(response_body.decode('utf-8'))
+        items = dict['response']['body']['items']['item'] 
+        # pprint.pprint(items)
+
+        for item in items :
+            result_value = []
+            result_column=[]
+            for i in items_list:
+                if i in item.keys() :
+                    result_value.append(item[i])
+                    result_column.append(column_list[items_list.index(i)])
+                else:
+                    if items_list.index(i) in [0, 1, 5, 6]:
+                        result_value.append(0)
+                    else:
+                        result_value.append('')
+                    result_column.append(column_list[items_list.index(i)])
+            
+            common = Common.objects.get(pk=int(result_value[0]))
+            common.update(contentId=int(result_value[0]), category=int(result_value[1]), tel=result_value[2], 
+                            addr1=result_value[3], addr2=result_value[4], area=int(result_value[5]),
+                            sigungu=int(result_value[6]), title=result_value[7], overview=result_value[8],
+                            zipCode=result_value[9], homepage=result_value[10])
+            common.save()
+    else:
+        print("Error Code:" + rescode)
+    return redirect('/maps/')
+
+
+
 def getInform(items, key_lists, lists):
     inform = {}
     value_lists = []
@@ -49,6 +96,7 @@ def getInform(items, key_lists, lists):
     for i in range(len(value_lists)) :
         inform.update({key_lists[value_lists[i][0]]:items[value_lists[i][1]]})
     return inform
+
 
 # detail page
 def detailpage(request, content_id):
@@ -152,13 +200,6 @@ def detailpage(request, content_id):
         key_lists = ['대표메뉴', '영업시간', '포장 가능', '예약안내', '어린이 놀이방 여부', '금연/흡연 여부', '주차 시설','문의 및 안내']
         lists = ['firstmenu', 'opentimefood', 'packing', 'reservationfood', 'kidsfacility','smoking', 'parkingfood','infocenterfood']
         inform = getInform(items, key_lists, lists)
-    print(inform)
-        
-    detail = DetailInform()
-    detail.title = title
-    detail.image_lists = image_list
-    detail.content = infotext
-    detail.save()
     
     context = {'imageList':image_list, 'inform':inform, 'title':title, 'infotext':infotext}
     return render(request, 'maps/DetailPage.html', context)

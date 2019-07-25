@@ -14,7 +14,7 @@ class Common(models.Model):
     addr2 = models.TextField()
     homepage = models.TextField()
     avgScore = models.FloatField()
-    zipCode = models.IntegerField()
+    zipCode = models.TextField()
     image = models.TextField()
 
     def __str__(self):
