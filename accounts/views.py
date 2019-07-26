@@ -3,9 +3,17 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import get_user_model
+<<<<<<< HEAD
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import MyUser
+=======
+from .forms import CustomUserCreationForm
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import UserSerializer, SearchUserSerializer
+>>>>>>> fde0c8d8c4c29f8b6619fe789d1db951c2b945bc
 
 # Create your views here.
 # 회원가입
@@ -62,13 +70,6 @@ def logout(request):
     auth_logout(request)
     return redirect('maps:main')
 
-# 마이페이지
-@login_required
-def mypage(request, nickname):
-    myinfo = get_object_or_404(get_user_model(), nickname=nickname)
-    context = {'myinfo' : myinfo, }
-    return render(request, 'accounts/mypage.html', context)
-
 # 회원정보 수정 
 @login_required
 def update(request):
@@ -90,3 +91,28 @@ def delete(request):
     if request.method == "POST":
         request.user.delete()
     return redirect('maps:main')
+
+# 마이페이지
+def mypage(request, username):
+    myinfo = get_object_or_404(get_user_model(), username=username)
+    context = {'myinfo': myinfo, }
+    return render(request, 'accounts/mypage.html', context)
+
+@api_view(['GET'])
+def UserSerializer(request):
+    '''
+    모든 유저 정보
+    '''
+    users = get_user_model().objects.all()
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET', 'DELETE'])
+def UserInfoserializer(request, email):
+    '''
+    email로 유저 정보 가져오기
+    email로 유저 정보 삭제
+    '''
+    user = get_object_404(get_user_model(), email=email)
+    serializer = SearchUserSerializer(user, many=True)
+    return Response(serializer.data)

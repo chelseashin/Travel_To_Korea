@@ -18,6 +18,21 @@ from django.urls import path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from django.contrib.auth.decorators import login_required
+from maps import views
+
+schema_admin_view = get_schema_view(
+    openapi.Info(
+        title="여행 API(Admin)",
+        default_version='version1',
+        description="여행 정보 관리 및 유저 관리, 댓글 관리|(추가 예정)",
+        terms_of_service="https://lab.ssafy.com/dongqda/traveltokorea.git",
+        contact=openapi.Contact(email="no"),
+        license=openapi.License(name="SSAFY"),
+    ),
+    public=False,
+    permission_classes=(permissions.IsAdminUser)
+)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -41,10 +56,21 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    # Public API
     path('api/doc/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/doc/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
+    # Admin API 
+    path('admin/api/doc/', login_required(schema_admin_view.with_ui('swagger', cache_timeout=0)), name='schema-swagger-ui'),
+    path('admin/api/doc/redoc/', login_required(schema_admin_view.with_ui('redoc', cache_timeout=0)), name='schema-redoc'),
+    # path('accounts/', login_required(include('accounts.urls'))),
+
+    # app
     path('maps/', include('maps.urls')),
     path('accounts/', include('accounts.urls')),
+<<<<<<< HEAD
     path('admin/', admin.site.urls),
+=======
+    path('', views.main)
+>>>>>>> fde0c8d8c4c29f8b6619fe789d1db951c2b945bc
 ]

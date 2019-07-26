@@ -3,11 +3,11 @@
 <div class="header-wrapper"  style="background: rgba(0,0,0,0.4)">
     <div class="header-contents" >
         <!-- 타이틀 -->
-        <img src="{% static 'travel/img/logo_transparent.png' %}" style="width:100px">
+        <img src="{% static 'travel/img/logo_transparent.png' %}" style="width:70px ">
 
         <!-- 상단 메뉴 && 모바일 메뉴 -->
         <div class="nav-bar">
-            <ul>
+            <ul style="margin-top: 0px; margin-bottom: 0px;">
                 <li>
                     <a class="a-nav-bar" onClick="#" style="color: white">About</a>
                 </li>
@@ -17,7 +17,12 @@
                 <!-- 로그인 되어 있으면 -->
                 {% if user.is_authenticated %}
                 <li>
+<<<<<<< HEAD
                     <a href="{% url 'accounts:logout' %}" class="a-nav-bar" style="color: white">LogOut</a>
+=======
+                    <button onclick="document.getElementById('id01').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">Sign In</button>
+                    <button onclick="document.getElementById('id02').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">Sign Up</button>
+>>>>>>> fde0c8d8c4c29f8b6619fe789d1db951c2b945bc
                 </li>
                     
                 <!-- 로그인 되어 있지 않으면 -->

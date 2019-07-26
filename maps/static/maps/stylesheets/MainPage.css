@@ -1,20 +1,63 @@
-/*테이블 실선 시작*/
-table
-{
-border:1px solid black;
-border-collapse:collapse;
+.leftTable{
+    z-index:0;
 }
-td, th
-{
-border:1px solid black;
-}
-/*테이블 실선 끝*/
 
-/*테이블 스크롤기능 구현!!*/
-<style>
-.table-wrapper {
-    overflow: auto;
-    border:2px solid red;
+.rightTable{
+    z-index:0;
+    border:2px solid rgba(0, 0, 0, .5);
+    margin-top:10px;
 }
-</style>
-/*테이블 스크롤기능 구현 끝*/
+
+/*오른쪽 테이블에 1번째 row = rt1Row*/
+.rt2Row1Col{
+    border:2px solid rgba(0, 0, 0, .5);
+}
+.rt2Row2Col{
+    border:2px solid rgba(0, 0, 0, .5);
+}
+
+.rt3Row1Col{
+    border:2px solid rgba(0, 0, 0, .5);
+}
+
+
+#left1{
+    float: left;
+    width: 59%;
+}
+#right1{
+   float: right;
+   width: 40%;
+}
+
+#left2{
+    float: left;
+    width: 49%;
+}
+#right2{
+   float: right;
+   width: 49%;
+}
+
+/*반응형 디자인*/
+@media screen and (max-width: 940px) {
+
+        body {
+            background-color: lightgreen;
+        }
+
+        #left1 {
+          display :none;
+        }
+         #right1 {
+          width: 100%;
+        }
+
+        #left2 {
+          width: 100%;
+        }
+
+        #right2 {
+          width: 100%;
+        }
+}

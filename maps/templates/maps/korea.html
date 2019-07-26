@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
-
 {% load static %}
+<<<<<<< HEAD
 {% block css %}<link rel="stylesheet" type="text/css" href="{% static 'maps/stylesheets/MainPage.css' %}"> {% endblock %}
 
 <!-- body -->
@@ -88,3 +87,24 @@
             height: 3000px;
         }
     </style> -->
+=======
+	
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" />
+	<link rel="stylesheet" href="{% static 'maps/stylesheets/style.css' %}">
+	
+	{% block css %}
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+	<script src="{% static 'maps/assets/js/d3.js' %}"></script>
+	{% endblock %}
+	<div id="container" class="container">
+		
+		<div id="radio">
+			<span class="title">지명표시</span>
+	    <input type="radio" id="radio1" name="radio" value="on" checked><label for="radio1">On</label>
+	    <input type="radio" id="radio2" name="radio" value="off"><label for="radio2">Off</label>
+	  </div>
+	</div>
+	
+	<script src="{% static 'maps/assets/js/script.js' %}"></script>
+>>>>>>> fde0c8d8c4c29f8b6619fe789d1db951c2b945bc
