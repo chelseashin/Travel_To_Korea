@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Common, Detail
 from .serializers import CommonSerializer, DetailSerializer, SearchByAreaSerializer, SearchBySigunguSerializer, SearchByCategorySerializer, SearchByContentIdSerializer
-import requests
 
 # Create your views here.
 
@@ -135,21 +134,24 @@ def detailcommon(request):
             # 관광지
             if category == 12 :
                 detail_set = {
-                    'chkBaby' : 'chkbabycarriage',
-                    'chkPet' : 'chkpet',
-                    'ageLimit' : 'expagerange',
-                    'restDate' : 'restdate',
-                    'useTime' : 'usetime'
+                    'chkbabycarriage': 'chkBaby',
+                    'chkpet': 'chkPet',
+                    'expagerange': 'ageLimit',
+                    'restdate': 'restDate',
+                    'usetime': 'useTime',
                 }
 
-                for k, v in detail_set.items():
-                    if v in detail_items.keys():
+                for item in detail_items.keys():
+                    if item in detail_set.keys():
                         detail = Detail.objects.get(detailId=detail_pk)
-                        key = k
-                        value = v
-                        detail(key = detail_items[value])
-                        print(key,value, detail_items[value], detail.key)
-                        detail.save()
+                        print(item, detail_set[item])
+                    # if v in detail_items.keys():
+                    #     detail = Detail.objects.get(detailId=detail_pk)
+                    #     key = k
+                    #     value = v
+                    #     detail(key = detail_items[value])
+                    #     print(key,value, detail_items[value], detail.key)
+                    #     detail.save()
 
 
             # 행사/공연/축제
