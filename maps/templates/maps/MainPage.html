@@ -32,82 +32,80 @@
 
     <div id="app" class="section section-2" style="height:100%">
         <div class="section-content">
-            <div id="left"  style="float: left; width: 49%;">
+            <div id="left1"  style="float: left; width: 59%;">
                 <div class="layer" >
                     <table width="100%" height="100%" class="leftTable">
-                        <colgroup>
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="8%">
-                            <col width="36%">
-                        </colgroup>
-                        <thead>
-                        <tr height="30px">
-                            <div class="checkbox">
-                                <th class="lt1Row1Col"> <input type="checkbox" @click="checkAll" v-model="allSelected">전체</th>
-                                <th class="lt1Row2Col" v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</th>
-                                <th border="hidden"></th>
-                            </div>
+                        <tr>
+                            <td>
+                                <div id="container" class="mapContainer">
+                                    <div id="radio">
+                                        <span class="title" style="color:black">지명표시</span>
+                                        <input type="radio" id="radio1" name="radio" value="on" checked><label for="radio1">On</label>
+                                        <input type="radio" id="radio2" name="radio" value="off"><label for="radio2">Off</label>
+                                    </div>
+                                </div>
+                            </td>
+
                         </tr>
-                        <tr height="30px" >
-                            <th colspan="4" class="lt2Row1Col">
-                                <select id="region" name="region" v-on:change="changeRegion()">
-                                    <option value="all">전체보기</option>
-                                    [[selectedlist]]
-                                    {% for i in value %}
-                                    <option value="{{i.code}}">{{i.name}}</option>
-                                    {% endfor %}
-                                </select>
-                            </th>
-                            <th colspan="4" class="lt2Row2Col">
-                                <select id="sigungu" v-on:change="changeSigungu()">
-                                    <option  selected disabled hidden>시군구 선택</option>
-                                    <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
-                                </select>
-                            </th>
-                            <th style="border-bottom:hidden"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            <tr height="550" >
-                                <td colspan="9" class="lt3Row">{% include "maps/map.html" %}</td>
-                            </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
 
-            <div id="right"  style="float: right; width: 50%">
-                <table width="100%" class="rightTable">
+
+            <div id="right1"  style="float: right; width: 40%">
+
+                <table width="100%" class="rightTable" >
+                    <colgroup>
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                    </colgroup>
                     <thead>
-                    <tr height="60px">
-                        <th class="rt1Row"><p>[[chk_info]]</p></th>
+                    <tr height="30px">
+                        <div class="checkbox">
+                            <th class="rt1Row1Col"> <input type="checkbox" @click="checkAll" v-model="allSelected">전체</th>
+                            <th class="rt1Row2Col" v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</th>
+                        </div>
+                    </tr>
+                    <tr height="30px" >
+                        <th colspan="4" class="rt2Row1Col">
+                            <select id="region" name="region" v-on:change="changeRegion()">
+                                <option value="all">전체보기</option>
+                                [[selectedlist]]
+                                {% for i in value %}
+                                <option value="{{i.code}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                        <th colspan="4" class="rt2Row2Col">
+                            <select id="sigungu" v-on:change="changeSigungu()">
+                                <option  selected disabled hidden>시군구 선택</option>
+                                <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
+                            </select>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr >
-                        <td  height="550" >
+                    <tr>
+                        <td colspan="8" class="rt3Row1Col">
+                            <p>[[chk_info]]</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" height="465">
                             <div style="overflow-y:scroll; height:100%; width:100%">
                                 <p v-for="list in travelList">[[list]]</p>
                             </div>
                         </td>
                     </tr>
-                    <tr >
-                        <td colspan="8">
-                            <div id="container" class="container">
-                                <div id="radio">
-                                    <span class="title">지명표시</span>
-                                    <input type="radio" id="radio1" name="radio" value="on" checked><label for="radio1">On</label>
-                                    <input type="radio" id="radio2" name="radio" value="off"><label for="radio2">Off</label>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+
+                    </tbody>
+
                 </table>
             </div>
         </div>
@@ -115,12 +113,12 @@
 
     <div class="section section-3">
         <div class="section-content">
-            <div id="left" style="float: left; width: 49%;">
+            <div id="left2" style="float: left; width: 49%;">
                 <p style="text-align: left; font-size: 25px">왼쪽</p>
 
             </div>
 
-            <div id="right" style="float: right; width: 50%">
+            <div id="right2" style="float: right; width: 50%">
                 <p style="text-align: left; font-size: 25px">오른쪽</p>
 
             </div>
@@ -229,6 +227,6 @@ Vue.config.devtools = true;
 
 </script>
 
-<script src="{% static 'maps/assets/js/script.js' %}"></script>
+    <script src="{% static 'maps/assets/js/script.js' %}"></script>
 
     {% endblock %}

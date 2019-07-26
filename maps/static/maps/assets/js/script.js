@@ -1,14 +1,15 @@
-var width = 700,
-    height = 700,
-    initialScale = 5500,
-    initialX = -11900,
-    initialY = 4050,
-    centered,
-    labels;
+var width = 500,
+  height = 550,
+  initialScale = 4500,
+  initialX = -11020,
+  initialY = 4030,
+  centered,
+  labels;
 
 var projection = d3.geo.mercator()
     .scale(initialScale)
-    .translate([initialX, initialY]);
+   .translate([width / 3, height / 2])
+   .center([127.5, 35.9])
 
 var path = d3.geo.path()
     .projection(projection);
