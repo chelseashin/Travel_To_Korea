@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer, SearchUserSerializer
 
+# python manage.py makemigrations accounts
 
 # Create your views here.
 # 회원가입
@@ -21,24 +22,22 @@ def signup(request):
     
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        print(form)
         if form.is_valid():
             user_form = form.save(commit=False)    # 폼 처리
             user_form.username = user_form.nickname
-            
-            print(user_form.nickname)
+            user_form.nickname = user_form.nickname
+            user_form.email = user_form.email
+            user_form.gender = user_form.gender
+            user_form.birth = user_form.birth
+            print(user_form)
             # user_form.username = MyUser.nickname
             user = user_form.save()
-            user = MyUser.objects.create(nickname=user)
-            print(user)
-            if user.is_anonymous():
-                # print('ok')
-                auth_login(request, user)
-                return redirect('maps:main')
-            else:
-                print('no')
-        else:
-            print('안들어옴')
+            print(user.nickname)
+            # user = MyUser.objects.create(nickname=nickname)
+
+            auth_login(request, user)
+            return redirect('maps:main')
+
     else:
         form = CustomUserCreationForm()
     context = {

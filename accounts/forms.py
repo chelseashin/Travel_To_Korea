@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import MyUser
 
 class CustomUserCreationForm(UserCreationForm):
-    class Meta :
+    class Meta:
         # model = get_user_model()
         model = MyUser
         # fields = '__all__'

@@ -17,4 +17,3 @@ urlpatterns = [
     path('user/', views.UserSerializer),
     path('user/<str:email>/', views.UserInfoserializer, name='UserInfo'),
     ]
-
