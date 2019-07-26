@@ -68,9 +68,8 @@ urlpatterns = [
     # app
     path('maps/', include('maps.urls')),
     path('accounts/', include('accounts.urls')),
-<<<<<<< HEAD
+
     path('admin/', admin.site.urls),
-=======
     path('', views.main)
->>>>>>> fde0c8d8c4c29f8b6619fe789d1db951c2b945bc
+
 ]
