@@ -1,20 +1,35 @@
-/*테이블 실선 시작*/
-table
-{
-border:1px solid black;
-border-collapse:collapse;
+.leftTable{
+    z-index:0;
 }
-td, th
-{
-border:1px solid black;
-}
-/*테이블 실선 끝*/
 
-/*테이블 스크롤기능 구현!!*/
-<style>
-.table-wrapper {
-    overflow: auto;
-    border:2px solid red;
+.rightTable{
+    z-index:0;
+    background-color:white;
+    border:5px solid rgba(0, 0, 0, .5);
 }
-</style>
-/*테이블 스크롤기능 구현 끝*/
+
+/*오른쪽 테이블에 1번째 row = rt1Row*/
+.rt1Row{
+    border:5px solid rgba(0, 0, 0, .5)
+}
+
+.lt3Row{
+    border-left:hidden;
+    border-bottom:hidden;
+}
+
+.lt2Row2Col{
+    border:5px solid rgba(0, 0, 0, .5);
+}
+
+.lt2Row1Col{
+    border:5px solid rgba(0, 0, 0, .5);
+}
+
+.lt1Row1Col{
+    border:5px solid rgba(0, 0, 0, .5);
+}
+
+.lt1Row2Col{
+    border:5px solid rgba(0, 0, 0, .5);
+}
