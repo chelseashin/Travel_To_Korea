@@ -19,6 +19,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.contrib.auth.decorators import login_required
+from maps import views
 
 schema_admin_view = get_schema_view(
     openapi.Info(
@@ -67,5 +68,5 @@ urlpatterns = [
     # app
     path('maps/', include('maps.urls')),
     path('accounts/', include('accounts.urls')),
-
+    path('', views.main)
 ]

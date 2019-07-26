@@ -99,13 +99,13 @@
                     </tr>
                     <tr >
                         <td colspan="8">
-                            <div id="container" class="container">
+                           <!-- <div id="container" class="container">
                                 <div id="radio">
                                     <span class="title">지명표시</span>
                                     <input type="radio" id="radio1" name="radio" value="on" checked><label for="radio1">On</label>
                                     <input type="radio" id="radio2" name="radio" value="off"><label for="radio2">Off</label>
                                 </div>
-                            </div>
+                            </div>-->
                         </td>
                     </tr>
                 </table>
@@ -144,7 +144,6 @@ var app = new Vue({
             areacode:'',
             sigungucode:'',
             chk_info:[],
-            flag:true,
             kategorie:[
                 { id : '12', name : '관광'},
                 { id : '14', name : '문화'},
@@ -182,37 +181,26 @@ var app = new Vue({
 
         <!--체크시 값 출력-->
          check :function(value){
-            let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
             this.allSelected=false
-            if(this.selectedoption.length!=0){
-                for(i in this.selectedoption){
-                     if(value==this.selectedoption[i]){
-                          this.selectedoption.splice(i,1)
-                          this.travelList.splice(i,1)
-                     }else{
-                        axios.get(base_URL)
-                        .then(response => {
-                            item = response.data.response.body.items.item
-                            item.forEach((travel) => {
-                               this.tmplist.push(travel.title)
-                            });
-                            this.travelList.push(this.tmplist)
-                            this.tmplist=[]
-                            this.selectedoption.push(item[0].contenttypeid)
-                        });
-                     }
-                }
-            }else{
-                axios.get(base_URL).then(response => {
+            if (Object.values(this.selectedoption).includes(value)) {
+                this.selectedoption.splice(this.selectedoption.indexOf(value), 1)
+            } else {
+                this.selectedoption.push(value)
+            }
+            this.gettravel()
+        },
+         gettravel:function(){
+             for(i in this.selectedoption){
+                let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+this.selectedoption[i]+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
+                 axios.get(base_URL)
+                 .then(response => {
                      item = response.data.response.body.items.item
                      item.forEach((travel) => {
-                          this.tmplist.push(travel.title)
+                        this.travelList.push(travel.title)
                      });
-                     this.travelList.push(this.tmplist)
-                     this.tmplist=[]
-                     this.selectedoption.push(item[0].contenttypeid)
-                });
-            }
+                 });
+             }
+             this.travelList=[]
          },
          checkAll:function(){
             this.chk_info = [];
