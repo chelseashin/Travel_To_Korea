@@ -24,7 +24,7 @@
     <div class="section section-2">
         <div class="section-content">
             <div class="layer" id="app">
-                <table class="scrolltable" cellspacing='0' fixed>
+                <table class="scrolltable" cellspacing='0'>
                     <colgroup>
                         <col width="30%">
                         <col width="70%">
@@ -62,7 +62,6 @@
                     </tr>
                     <tr >
                         <td colspan="8">
-                            {% include 'maps/korea.html' %}
                         </td>
                     </tr>
                 </table>
@@ -94,7 +93,9 @@ var app = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
+            tmplist:[],
             selectedlist:[],
+            selectedoption:[],
             travelList:[],
             allSelected:false,
             areacode:'',
@@ -135,35 +136,45 @@ var app = new Vue({
             alert(Select.value)
             this.sigungucode=Select.value
         },
+
         <!--체크시 값 출력-->
          check :function(value){
+            let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
             this.allSelected=false
-            for(i in this.chk_info){
-                if(i.id==value){
+            if(this.selectedoption.length!=0){
+                for(i in this.selectedoption){
+                     if(value==this.selectedoption[i]){
+                          this.selectedoption.splice(i,1)
+                          this.travelList.splice(i,1)
+                     }else{
+                        axios.get(base_URL)
+                        .then(response => {
+                            item = response.data.response.body.items.item
+                            item.forEach((travel) => {
+                               this.tmplist.push(travel.title)
+                            });
+                            this.travelList.push(this.tmplist)
+                            this.tmplist=[]
+                            this.selectedoption.push(item[0].contenttypeid)
+                        });
+                     }
                 }
-            }
-            if(this.flag){
-                 let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
-                 axios.get(base_URL)
-                 .then(response => {
-                     console.log(response)
-                     item = response.data.response.body.items.item
-
-                     item.forEach((travel) => {
-                         this.travelList.push(travel.title)
-                     });
-                     console.log(this.travelList)
-                 });
-                 this.flag=false
             }else{
-                 this.travelList = []
-                 this.flag=true
+                axios.get(base_URL).then(response => {
+                     item = response.data.response.body.items.item
+                     item.forEach((travel) => {
+                          this.tmplist.push(travel.title)
+                     });
+                     this.travelList.push(this.tmplist)
+                     this.tmplist=[]
+                     this.selectedoption.push(item[0].contenttypeid)
+                });
             }
          },
          checkAll:function(){
             this.chk_info = [];
 
-            if (this.allSelected) {
+            if (!this.allSelected) {
                 for (chk in this.kategorie) {
                     this.chk_info.push(this.kategorie[chk].name.toString());
                 }
@@ -172,16 +183,6 @@ var app = new Vue({
     },
 });
 Vue.config.devtools = true;
-
-    <!--전체선택-->
-      function checkAll(){
-        alert("checkall")
-          if( $('#chkAll').is(":checked") ){
-            $('input:checkbox[name=chk_info]').prop("checked", true);
-          }else{
-            $('input:checkbox[name=chk_info]').prop("checked", false);
-          }
-       }
 
 </script>
 
