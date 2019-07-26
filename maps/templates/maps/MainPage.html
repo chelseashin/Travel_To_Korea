@@ -21,49 +21,74 @@
     </div>
 
 
-    <div class="section section-2">
+    <div id="app" class="section section-2" style="height:100%">
         <div class="section-content">
-            <div class="layer" id="app">
-                <table class="scrolltable" cellspacing='0'>
-                    <colgroup>
-                        <col width="30%">
-                        <col width="70%">
-                    </colgroup>
-                    <tr>
-                        <div class="checkbox">
-                            <td>
-                                <input type="checkbox" @click="checkAll" v-model="allSelected">전체
-                            </td>
-                            <td v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</td>
-                        </div>
-                    <td>
-                        <p>[[chk_info]]</p>
-                    </td>
+            <div id="left"  style="float: left; width: 49%;">
+                <div class="layer" >
+                    <table width="100%" height="100%" class="leftTable">
+                        <colgroup>
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="36%">
+                        </colgroup>
+                        <thead>
+                        <tr height="30px">
+                            <div class="checkbox">
+                                <th class="lt1Row1Col"> <input type="checkbox" @click="checkAll" v-model="allSelected">전체</th>
+                                <th class="lt1Row2Col" v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</th>
+                                <th border="hidden"></th>
+                            </div>
+                        </tr>
+                        <tr height="30px" >
+                            <th colspan="4" class="lt2Row1Col">
+                                <select id="region" name="region" v-on:change="changeRegion()">
+                                    <option value="all">전체보기</option>
+                                    [[selectedlist]]
+                                    {% for i in value %}
+                                    <option value="{{i.code}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                            <th colspan="4" class="lt2Row2Col">
+                                <select id="sigungu" v-on:change="changeSigungu()">
+                                    <option  selected disabled hidden>시군구 선택</option>
+                                    <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
+                                </select>
+                            </th>
+                            <th style="border-bottom:hidden"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr height="550" >
+                                <td colspan="9" class="lt3Row">{% include "maps/map.html" %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="right"  style="float: right; width: 50%">
+                <table width="100%" class="rightTable">
+                    <thead>
+                    <tr height="60px">
+                        <th class="rt1Row"><p>[[chk_info]]</p></th>
                     </tr>
-                    <tr>
-                        <td colspan="8">
-                            <select id="region" name="region" v-on:change="changeRegion()">
-                                <option value="all">전체보기</option>
-                                [[selectedlist]]
-                                {% for i in value %}
-                                <option value="{{i.code}}">{{i.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="sigungu" v-on:change="changeSigungu()">
-                                <option  selected disabled hidden>시군구 선택</option>
-                                <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
-                            </select>
-                        </td>
-                        <td rowspan="2"  height="500" valign="top">
+                    </thead>
+                    <tbody>
+                    <tr >
+                        <td  height="550" >
                             <div style="overflow-y:scroll; height:100%; width:100%">
                                 <p v-for="list in travelList">[[list]]</p>
                             </div>
                         </td>
                     </tr>
-                    <tr >
-                        <td colspan="8">
-                        </td>
-                    </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -71,15 +96,14 @@
 
     <div class="section section-3">
         <div class="section-content">
-            <!-- To do -->
-            <div id="left" style="float: left; width: 45%;">
+            <div id="left" style="float: left; width: 49%;">
                 <p style="text-align: left; font-size: 25px">왼쪽</p>
-                <img src="{% static 'maps/img/left.png' %}" style="width:49%">
+
             </div>
 
             <div id="right" style="float: right; width: 50%">
                 <p style="text-align: left; font-size: 25px">오른쪽</p>
-                <img src="{% static 'maps/img/right.png' %}" style="width:49%">
+
             </div>
         </div>
     </div>
@@ -106,7 +130,7 @@ var app = new Vue({
                 { id : '12', name : '관광'},
                 { id : '14', name : '문화'},
                 { id : '15', name : '축제'},
-                { id : '28', name : '레포츠'},
+                { id : '28', name : '야외'},
                 { id : '32', name : '숙박'},
                 { id : '38', name : '쇼핑'},
                 { id : '39', name : '음식'}
