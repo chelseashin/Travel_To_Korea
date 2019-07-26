@@ -66,6 +66,7 @@ span.psw {
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   padding-top: 60px;
@@ -76,7 +77,7 @@ span.psw {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
-<!--  width: 80%; /* Could be more or less, depending on screen size */-->
+  width: 80%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button (x) */
@@ -127,23 +128,23 @@ span.psw {
 
 <div id="id01" class="modal">
 
-  <form class="modal-content animate" action="#">
+  <form class="modal-content animate" action="" method="POST">
     <div class="imgcontainer">
     </div>
 
     <div class="container">
-      <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <h3>Login</h3>
+
+      {{ login_form }}
+      <label for="email"><b>Email</b></label>
+      <input type="text" placeholder="이메일 주소를 입력해주세요!" name="email" required>
 
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <input type="password" placeholder="비밀번호를 입력해주세요!" name="psw" required>
 
-      <button type="submit" >Sign In</button>
       <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-      <span class="psw">Forgot <a href="#">password?</a></span>
+      <button type="submit" value="submit">Login</button>
+     
     </div>
   </form>
 </div>

@@ -14,15 +14,26 @@
                 <li>
                     <a class="a-nav-bar" onClick="#" style="color: white">My page</a>
                 </li>
+                <!-- 로그인 되어 있으면 -->
+                {% if user.is_authenticated %}
                 <li>
-
-                    <button onclick="document.getElementById('id01').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">Sign In</button>
-                    <button onclick="document.getElementById('id02').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">Sign Up</button>
-
+                    <a href="{% url 'accounts:logout' %}" class="a-nav-bar" style="color: white">LogOut</a>
                 </li>
+                    
+                <!-- 로그인 되어 있지 않으면 -->
+                    {% else %}
+                    <li>
+                        <a href="{% url 'accounts:login' %}" class="a-nav-bar" style="color: white">LogIn</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'accounts:signup' %}" class="a-nav-bar" style="color: white">SignUp</a>
+                    </li>
+                    <!-- <button onclick="document.getElementById('id01').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">LogIn</button>
+                    <button onclick="document.getElementById('id02').style.display='block'" style="background-color:rgba(0,0,0,0.0);width:auto;font-size:16px">SignUp</button> -->
+                {% endif %}
             </ul>
         </div>
     </div>
 </div>
-{% include 'accounts/signUp.html' %}
-{% include 'accounts/signIn.html' %}
+<!-- {% include 'accounts/signUp.html' %}
+{% include 'accounts/signIn.html' %} -->

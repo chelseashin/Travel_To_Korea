@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if request.resolver_match.url_name == 'signup' %}
+        SignUp
+    {% elif request.resolver_match.url_name == 'login' %}
+        LogIn
+    {% else %}
+        Update
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <form action='' method='POST'>
+        {% csrf_token %}
+    
+        {% if request.resolver_match.url_name == 'signup' %}
+            <h2>SignUp</h2>
+            {{ signup_form }}
+            <input type="submit" value="submit">
+        {% elif request.resolver_match.url_name == 'login' %}
+            <h2>LogIn</h2>
+            {{ login_form }}
+            <input type="submit" value="submit">
+        {% else %}
+            <h2>회원정보 수정</h2>
+            {{ user_change_form }}
+            <input type="submit" value="submit">
+        {% endif %}
+    </form>
+{% endblock %}
