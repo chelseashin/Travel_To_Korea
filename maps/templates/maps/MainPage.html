@@ -24,46 +24,74 @@
         </div>
         <div class = "section-content">
           <span id="animationSandbox" style="display: block;" class="heartBeat">
-          	<p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
+             <p style="font-size: 150px" class="site__title mega">Travel To Korea</p>
           </span>
         </div>
     </div>
 
 
-    <div class="section section-2">
+    <div id="app" class="section section-2" style="height:100%">
         <div class="section-content">
-            <div class="layer" id="app">
-                <table class="scrolltable" cellspacing='0' fixed>
-                    <colgroup>
-                        <col width="50%">
-                        <col width="50%">
-                    </colgroup>
-                    <tr>
-                        <div class="checkbox">
-                            <td>
-                                <input type="checkbox" @click="checkAll" v-model="allSelected">전체
-                            </td>
-                            <td v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.id">[[i.name]]</td>
-                        </div>
-                    <td>
-                        <p value="{{i.code}}">{{i.name}}</p>
-                    </td>
+            <div id="left"  style="float: left; width: 49%;">
+                <div class="layer" >
+                    <table width="100%" height="100%" class="leftTable">
+                        <colgroup>
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="8%">
+                            <col width="36%">
+                        </colgroup>
+                        <thead>
+                        <tr height="30px">
+                            <div class="checkbox">
+                                <th class="lt1Row1Col"> <input type="checkbox" @click="checkAll" v-model="allSelected">전체</th>
+                                <th class="lt1Row2Col" v-for="i in kategorie"><input type="checkbox" v-model="chk_info" v-on:click="check(i.id)" :value="i.name">[[i.name]]</th>
+                                <th border="hidden"></th>
+                            </div>
+                        </tr>
+                        <tr height="30px" >
+                            <th colspan="4" class="lt2Row1Col">
+                                <select id="region" name="region" v-on:change="changeRegion()">
+                                    <option value="all">전체보기</option>
+                                    [[selectedlist]]
+                                    {% for i in value %}
+                                    <option value="{{i.code}}">{{i.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                            <th colspan="4" class="lt2Row2Col">
+                                <select id="sigungu" v-on:change="changeSigungu()">
+                                    <option  selected disabled hidden>시군구 선택</option>
+                                    <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
+                                </select>
+                            </th>
+                            <th style="border-bottom:hidden"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr height="550" >
+                                <td colspan="9" class="lt3Row">{% include "maps/map.html" %}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="right"  style="float: right; width: 50%">
+                <table width="100%" class="rightTable">
+                    <thead>
+                    <tr height="60px">
+                        <th class="rt1Row"><p>[[chk_info]]</p></th>
                     </tr>
-                    <tr>
-                        <td colspan="8">
-                            <select id="region" name="region" v-on:change="changeRegion()">
-                                <option value="all">전체보기</option>
-                                [[selectedlist]]
-                                {% for i in value %}
-                                <option value="{{i.code}}">{{i.name}}</option>
-                                {% endfor %}
-                            </select>
-                            <select id="sigungu" v-on:change="changeSigungu()">
-                                <option  selected disabled hidden>시군구 선택</option>
-                                <option v-for="list in selectedlist" id = "listsigungu" :value="list.code">[[list.name]]</option>
-                            </select>
-                        </td>
-                        <td rowspan="2"  height="500" valign="top">
+                    </thead>
+                    <tbody>
+                    <tr >
+                        <td  height="550" >
                             <div style="overflow-y:scroll; height:100%; width:100%">
                                 <p v-for="list in travelList">[[list]]</p>
                             </div>
@@ -87,20 +115,17 @@
 
     <div class="section section-3">
         <div class="section-content">
-            <!-- To do -->
-            <div id="left" style="float: left; width: 45%;">
+            <div id="left" style="float: left; width: 49%;">
                 <p style="text-align: left; font-size: 25px">왼쪽</p>
-                <img src="{% static 'maps/img/left.png' %}" style="width:49%">
+
             </div>
 
             <div id="right" style="float: right; width: 50%">
                 <p style="text-align: left; font-size: 25px">오른쪽</p>
-                <img src="{% static 'maps/img/right.png' %}" style="width:49%">
+
             </div>
         </div>
     </div>
-
-
 
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -111,18 +136,20 @@ var app = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
+            tmplist:[],
             selectedlist:[],
+            selectedoption:[],
             travelList:[],
-            checked:false,
             allSelected:false,
             areacode:'',
             sigungucode:'',
             chk_info:[],
+            flag:true,
             kategorie:[
                 { id : '12', name : '관광'},
                 { id : '14', name : '문화'},
                 { id : '15', name : '축제'},
-                { id : '28', name : '레포츠'},
+                { id : '28', name : '야외'},
                 { id : '32', name : '숙박'},
                 { id : '38', name : '쇼핑'},
                 { id : '39', name : '음식'}
@@ -152,32 +179,45 @@ var app = new Vue({
             alert(Select.value)
             this.sigungucode=Select.value
         },
+
         <!--체크시 값 출력-->
          check :function(value){
+            let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
             this.allSelected=false
-            if(this.checked==false){this.checked=true}
-            if (this.checked==true){
-                 let base_URL = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=tG2pbhauvACu6IO20lRl4NIY5qDcRrFnl21s57G6XgwovyquyiFquhZgoE%2FBmG930wyBEyxx4pNZEyxzt8%2Brvg%3D%3D&contentTypeId="+value+"&areaCode="+this.areacode+"&sigunguCode="+this.sigungucode+"&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=10&pageNo=1&_type=json"
-                 axios.get(base_URL)
-                 .then(response => {
-                     console.log(response)
+            if(this.selectedoption.length!=0){
+                for(i in this.selectedoption){
+                     if(value==this.selectedoption[i]){
+                          this.selectedoption.splice(i,1)
+                          this.travelList.splice(i,1)
+                     }else{
+                        axios.get(base_URL)
+                        .then(response => {
+                            item = response.data.response.body.items.item
+                            item.forEach((travel) => {
+                               this.tmplist.push(travel.title)
+                            });
+                            this.travelList.push(this.tmplist)
+                            this.tmplist=[]
+                            this.selectedoption.push(item[0].contenttypeid)
+                        });
+                     }
+                }
+            }else{
+                axios.get(base_URL).then(response => {
                      item = response.data.response.body.items.item
-
                      item.forEach((travel) => {
-                         this.travelList.push(travel.title)
+                          this.tmplist.push(travel.title)
                      });
-                     console.log(this.travelList)
-                 });
-                 this.travelList = []
-            }
-            else{
-                this.travelList=[]
+                     this.travelList.push(this.tmplist)
+                     this.tmplist=[]
+                     this.selectedoption.push(item[0].contenttypeid)
+                });
             }
          },
          checkAll:function(){
             this.chk_info = [];
 
-            if (this.allSelected) {
+            if (!this.allSelected) {
                 for (chk in this.kategorie) {
                     this.chk_info.push(this.kategorie[chk].name.toString());
                 }
@@ -186,16 +226,6 @@ var app = new Vue({
     },
 });
 Vue.config.devtools = true;
-
-    <!--전체선택-->
-      function checkAll(){
-        alert("checkall")
-          if( $('#chkAll').is(":checked") ){
-            $('input:checkbox[name=chk_info]').prop("checked", true);
-          }else{
-            $('input:checkbox[name=chk_info]').prop("checked", false);
-          }
-       }
 
 </script>
 
