@@ -31,45 +31,14 @@
        url(../fonts/NanumGothic-ExtraBold.ttf) format('truetype');
 }
 
-* {
-	font-family: 'Nanum Gothic';
+
+.mapContainer {
+ position: relative;
+   margin: 10px auto 30px;
+   width: 500px;
+   min-height: 700px;
 }
 
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-
-.container {
-	position: relative;
-	margin: 50px auto 30px;
-	width: 700px;
-	min-height: 700px;
-}
-
-.footer {
-	margin: 0 auto 50px;
-	width: 700px;
-}
-
-.footer p {
-	text-align: center;
-	font-size: 12px;
-}
-
-.footer p a {
-	color: #2fa4e7;
-	text-decoration: none;
-}
-
-.footer p a:hover {
-	text-decoration: underline;
-}
-
-h1 {
-	font-size: 24px;
-}
 
 #radio {
 	height: 36px;
