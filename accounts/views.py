@@ -15,7 +15,6 @@ def signup(request):
     
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
-        print('form')
         print(form)
         if form.is_valid():
             user_form = form.save(commit=False)    # 폼 처리
@@ -24,9 +23,10 @@ def signup(request):
             print(user_form.nickname)
             # user_form.username = MyUser.nickname
             user = user_form.save()
-            # user = MyUser.objects.create(nickname=r)
+            user = MyUser.objects.create(nickname=user)
+            print(user)
             if user.is_anonymous():
-                print('ok')
+                # print('ok')
                 auth_login(request, user)
                 return redirect('maps:main')
             else:
@@ -42,6 +42,8 @@ def signup(request):
 
 # 로그인
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('maps:main')
     
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
