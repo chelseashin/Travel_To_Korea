@@ -7,6 +7,10 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
-    path('<str:username>/', views.mypage, name='mypage')
+    path('<str:username>/', views.mypage, name='mypage'),
+
+    # API Link(Only Admin)
+    path('user/', views.UserSerializer),
+    path('user/<str:email>/', views.UserInfoserializer, name='UserInfo'),
     ]
 
