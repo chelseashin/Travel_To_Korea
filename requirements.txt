@@ -9,7 +9,7 @@ django-allauth==0.39.1
 django-cors-headers==3.0.2
 django-crispy-forms==1.7.2
 django-rest-swagger==2.2.0
-djangorestframework==3.10.1
+djangorestframework==3.11.2
 drf-yasg==1.16.1
 flex==6.14.0
 idna==2.8
